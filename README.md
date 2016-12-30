@@ -43,6 +43,8 @@ Use "ultrasonic fingerprints" to synchronize and/or relay data to devices throug
   <br><br>
   <img src="http://qraider.com/XT/images/purdue.gif">
 </p>
+
+* Location-based “push” notifications. Audience members can be segmented by proximity to various speakers.
  
 * Commands without a data connection. Because the software is triggered by sound, it can perform even where there is no data connection, WIFI, or Bluetooth.
  
@@ -62,8 +64,8 @@ If the provided demo app is in open on your device, playing the following links 
 * [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
 * [Error Recognition](http://qraider.com/XT/Demo/simulated_error.php)
 * [Podcast](http://qraider.com/XT/Demo/audio_only.wav)
-* [Ultrasonic “Push” Notification 1](http://qraider.com/XT/Demo/300-95.wav)
-* [Ultrasonic “Push” Notification 2](http://qraider.com/XT/Demo/400-95.wav)
+* [Location-Based Notification 1](http://qraider.com/XT/Demo/300-95.wav)
+* [Location-Based Notification 2](http://qraider.com/XT/Demo/400-95.wav)
 
 # Integration
 
