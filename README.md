@@ -1,6 +1,6 @@
 # QRT Ultrasonic Fingerprints
 
-###### Use "ultrasonic fingerprints" to synchronize and/or relay data to devices through a variety of broadcast media. This data-over-audio method uses sound waves analogously to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
+Use "ultrasonic fingerprints" to synchronize and/or relay data to devices through a variety of broadcast media. This data-over-audio method uses sound waves analogously to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
 
 ##### Advantages include:
 
