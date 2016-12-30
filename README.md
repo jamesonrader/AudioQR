@@ -11,12 +11,12 @@ Use "ultrasonic fingerprints" to synchronize and/or relay data to devices throug
 
 ![Purdue University](http://qraider.com/images/clientssmall/purdue.png "Purdue University")
 ![Maquette University](http://qraider.com/images/clientssmall/marquette.png "Maquette University")
+![University of Michigan](http://qraider.com/images/clientssmall/michiganwolverines.png "")
 ![University of Notre Dame](http://qraider.com/images/clientssmall/notredame.png "")
 ![University of Alabama](http://qraider.com/images/clientssmall/alabama.png "University of Alabama")
 ![University of Wisconsin](http://qraider.com/images/clientssmall/wisconsin.png "University of Wisconsin")
 ![Clemson University](http://qraider.com/images/clientssmall/clemson.png "")
 ![University of Nebraska](http://qraider.com/images/clientssmall/nebraska.png "University of Nebraska")
-![University of Michigan](http://qraider.com/images/clientssmall/michiganwolverines.png "")
 ![University of North Carolina](http://qraider.com/images/clientssmall/northcarolina.png "University of North Carolina")
 ![Oklahoma City Thunder](http://qraider.com/images/clientssmall/thunderokc.png "Oklahoma City Thunder")
 ![Atlanta Hawks](http://qraider.com/images/clientssmall/atlantahawks.png "")
