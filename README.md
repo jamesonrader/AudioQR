@@ -48,7 +48,7 @@ Use "ultrasonic fingerprints" to synchronize and/or relay data to devices throug
  
 * Authorization — triggers can be used to verify check-in at an event, or to unlock content on your app.
  
-* Beacon alternative — anything accomplished by an iBeacon can be accomplished simply with a speaker emitting one of our triggers at regular intervals.
+* Beacon alternative — anything accomplished by an iBeacon can be accomplished simply with a speaker emitting an ultrasonic trigger at regular intervals.
  
 * Indoor location sensing — provide location services more accurate than GPS with just making use of the existing speaker infrastructure.
 
@@ -58,7 +58,7 @@ Use "ultrasonic fingerprints" to synchronize and/or relay data to devices throug
 
 If the provided demo app is in open on your device, playing the following links from your desktop will trigger various events.
 
-* [Televison Interaction](http://qraider.com/XT/Demo/product_link.php)
+* [Commercial Interaction](http://qraider.com/XT/Demo/product_link.php)
 * [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
 * [Error Recognition](http://qraider.com/XT/Demo/simulated_error.php)
 * [Podcast](http://qraider.com/XT/Demo/audio_only.wav)
