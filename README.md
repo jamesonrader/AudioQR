@@ -1,6 +1,6 @@
-# QRT Ultrasonic Fingerprints
+# XT Ultrasonic Fingerprints
 
-Use "ultrasonic fingerprints" to synchronize and/or relay data to devices through a variety of broadcast media. This data-over-audio method uses sound waves analogously to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
+Use ultrasonic fingerprints to synchronize and relay data to mobile devices through speakers or a variety of broadcast media. This data-over-audio method utilizes sound waves analogously to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
 
 ##### Advantages include:
 
@@ -8,32 +8,36 @@ Use "ultrasonic fingerprints" to synchronize and/or relay data to devices throug
 * Ability to relay data to devices through television broadcasts or any other sound-based media.
 * Ability to synchronize devices to the nearest eighth of a second.
 
-# Who’s using QRT Ultrasonic Fingerprints?
-###### So far we’ve used our SDK for several organizations, including:
+# Who’s using XT Ultrasonic Fingerprints?
+###### XT ultrasonic fingerprints have been enjoyed by over 1,000,000 users across three continents. Some of our clients include the following:
 
 ![Purdue University](http://qraider.com/images/clientssmall/purdue.png "Purdue University")
 ![Maquette University](http://qraider.com/images/clientssmall/marquette.png "Maquette University")
-![University of Michigan](http://qraider.com/images/clientssmall/michiganwolverines.png "")
+![University of Michigan](http://qraider.com/images/clientssmall/michiganwolverines.png "University of Michigan")
 ![University of Alabama](http://qraider.com/images/clientssmall/alabama.png "University of Alabama")
 
-![University of Notre Dame](http://qraider.com/images/clientssmall/notredame.png "")
+![University of Notre Dame](http://qraider.com/images/clientssmall/notredame.png "University of Notre Dame")
 ![University of Wisconsin](http://qraider.com/images/clientssmall/wisconsin.png "University of Wisconsin")
-![Clemson University](http://qraider.com/images/clientssmall/clemson.png "")
+![Clemson University](http://qraider.com/images/clientssmall/clemson.png "Clemson University")
 ![University of Nebraska](http://qraider.com/images/clientssmall/nebraska.png "University of Nebraska")
 
 ![University of North Carolina](http://qraider.com/images/clientssmall/northcarolina.png "University of North Carolina")
 ![Oklahoma City Thunder](http://qraider.com/images/clientssmall/thunderokc.png "Oklahoma City Thunder")
-![Atlanta Hawks](http://qraider.com/images/clientssmall/atlantahawks.png "")
+![Atlanta Hawks](http://qraider.com/images/clientssmall/atlantahawks.png "Atlanta Hawks")
 ![Florida Panthers](http://qraider.com/images/clientssmall/floridapanthers.png "Florida Panthers")
 
 
 # Possible uses
 
 * Triggering commands on the smartphone through a television broadcast, online video, radio commercial, film and movies. Users can be rewarded for tuning in; products can be linked to during a featured commercial; coupons can be distributed, etc.
+
+* (Turn $10 household speakers into iBeacons.)[link] Any speaker emitting a unique fingerprint at regular intervals can be used to detect proximity and trigger events to achieve the same effect as traditional Bluetooth beacons.
+
+* Location-based “push” notifications. Users can be segmented by proximity to various speakers.
  
 * Smartphones in the same room or across the globe can be synchronized and given precisely timed commands in real-time, or minutes, hours, or even days after the trigger was detected.
  
-* Concerts, sporting events, and live shows — make the crowd your canvas.
+* Concerts, sporting events, and live shows — synchronize a stadium of smartphones and make the crowd your canvas.
 
 <p align="center">
   <b>Synchronization</b><br>
@@ -41,24 +45,22 @@ Use "ultrasonic fingerprints" to synchronize and/or relay data to devices throug
   <a href="https://www.youtube.com/watch?v=UkxqUhp2RCk">Iowa @ Purdue</a> |
   <a href="https://www.youtube.com/watch?v=YZZp-idBDpM">Villanova @ Marquette</a>
   <br><br>
-  <img src="http://qraider.com/XT/images/purdue.gif">
+  <a href="https://youtu.be/ork4Q4eoUg4"><img src="http://qraider.com/XT/images/purdue.gif">
 </p>
-
-* Location-based “push” notifications. Audience members can be segmented by proximity to various speakers.
  
-* Commands without a data connection. Because the software is triggered by sound, it can perform even where there is no data connection, WIFI, or Bluetooth.
+* Commands without a data connection. Because the software is triggered by sound, it can perform even where there is no data connection, Wi-Fi, or Bluetooth.
  
-* Authorization — triggers can be used to verify check-in at an event, or to unlock content on your app.
+* Authorization/ticketing — triggers can be used to verify check-in at an event, or to unlock content on your app.
  
-* Beacon alternative — anything accomplished by an iBeacon can be accomplished simply with a speaker emitting an ultrasonic trigger at regular intervals.
- 
-* Indoor location sensing — provide location services more accurate than GPS with just making use of the existing speaker infrastructure.
+* Indoor location sensing — provide location services more accurate than GPS by making use of the existing speaker infrastructure.
 
 * Anything else you put your mind to.
+
 
 # Demo
 
 If the provided demo app is in open on your device, playing the following links from your desktop will trigger various events.
+
 
 * [Commercial Interaction](http://qraider.com/XT/Demo/product_link.php)
 * [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
@@ -69,17 +71,29 @@ If the provided demo app is in open on your device, playing the following links 
 
 # Integration
 
+## How it works
+
+Each ultrasonic fingerprint is composed of a permutation of human-inaudible tones lasting between 0.0005 and 0.002 seconds. The duration of the fingerprint is variable and depends on the amount of data relayed — typically a complete trigger lasts anywhere from 0.30 to 2.0 seconds. 
+
+Data is extracted from a set of 2048 frequency/amplitude vectors derived from incoming audio using a Fast Fourier Transformation (FFT). Over the course of a second, thousands of bits of data can be relayed. Our triggers are concentrated between 16-22 kHz to minimize conflict with environmental noise and to remain human-inaudible. This means that any audio containing our triggers must be in a format that supports high-pitch frequencies (e.g., WAV) and should not be converted or compressed into a lesser format (e.g., MP3).
+
+Ultrasonic fingerprints can be generated to the point where “throwaway” triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. Select fingerprints can be [downloaded here](zip link) for demo and beta purposes. Fingerprints can further be customized and generated without limit on an as-needed basis by contacting info@qraider.com. Please allow up to 24 hours for a response.
+
+###### Note: before publishing an app containing the XT Ultrasonic Fingerprint framework, make sure you’ve read the FAQ and terms & conditions located [here.](http://qraider.com/XT/Demo/FAQ.html)
+
 ## iOS
 
-(1) Add `#import <XT/XT.h>` to your header file and make your `UIViewController` a subclass of `QRTUltrasonicsViewController`.
+(1) Add `#import <XT/XT.h>` to your header file and make your `UIViewController` a subclass of `XTUltrasonicsViewController`.
 
-(2) Set the `QRTdelegate` of the `QRTUltrasonicsViewController`, typically `self`.
+(2) Set the `XTdelegate` of the `XTUltrasonicsViewController`, typically `self`.
 
 (3) Implement the method
 
-	- (void) didHearTriggerWithTitle:(NSString *)title
+	- (void) didHearTriggerWithTitle:(NSString *)title andAmplitude:(float) mag
 
-(4) To get a list of trigger titles, call the method `[self logTriggerTitles]` on the `QRTUltrasonicsViewController` subclass. 
+The amplitude measure can be used as a rough indicator of proximity to the outputting speaker.
+
+(4) To get a list of trigger titles, call the method `[self logTriggerTitles]` on the `XTUltrasonicsViewController` subclass. 
 	
 ###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles`, simply contact info@qraider.com for customization.
 
@@ -100,9 +114,9 @@ To stop the label and activity indicator from appearing when the view loads, ove
 
 (2) Add `flatDir { dirs 'libs' }` to repositories in your top-level build gradle. [See here](http://qraider.com/XT/images/android_step_two.png "Android - Step 2")
 
-(3) Subclass `QRTUltrasonicsActivity` and implement the method `public void didHearTriggerWithTitle(String title)`. 
+(3) Subclass `XTUltrasonicsActivity` and implement the method `public void didHearTriggerWithTitle(String title) andAmplitude:(float) mag`. The amplitude measure can be used as a rough indicator of proximity to the outputting speaker.
 
-(4) To get a list of trigger titles, call the method `logTriggerTitles()` on the `QRTUltrasonicsActivity` subclass. 
+(4) To get a list of trigger titles, call the method `logTriggerTitles()` on the `XTUltrasonicsActivity` subclass. 
 
 ###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles()`, simply contact info@qraider.com for customization.
 
