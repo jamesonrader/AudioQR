@@ -1,6 +1,6 @@
 # XT Ultrasonic Fingerprints
 
-Use ultrasonic fingerprints to synchronize and relay data to mobile devices through speakers or a variety of broadcast media. This data-over-audio method utilizes sound waves analogously to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
+Use ultrasonic fingerprints to synchronize and relay data to mobile devices through speakers or a variety of broadcast media. This data-over-audio method utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
 
 ##### Advantages include:
 
@@ -31,7 +31,7 @@ Use ultrasonic fingerprints to synchronize and relay data to mobile devices thro
 
 * Triggering commands on the smartphone through a television broadcast, online video, radio commercial, film and movies. Users can be rewarded for tuning in; products can be linked to during a featured commercial; coupons can be distributed, etc.
 
-* (Turn $10 household speakers into iBeacons.)[link] Any speaker emitting a unique fingerprint at regular intervals can be used to detect proximity and trigger events to achieve the same effect as traditional Bluetooth beacons.
+* Turn $10 household speakers into iBeacons. Any speaker emitting a unique fingerprint at regular intervals can be used to detect proximity and trigger events to achieve the same effect as traditional Bluetooth beacons.
 
 * Location-based “push” notifications. Users can be segmented by proximity to various speakers.
  
@@ -39,13 +39,13 @@ Use ultrasonic fingerprints to synchronize and relay data to mobile devices thro
  
 * Concerts, sporting events, and live shows — synchronize a stadium of smartphones and make the crowd your canvas.
 
-<p align="center">
+<p align="center"> 
   <b>Synchronization</b><br>
   <a href="https://youtu.be/ork4Q4eoUg4">Villanova @ Purdue</a> |
   <a href="https://www.youtube.com/watch?v=UkxqUhp2RCk">Iowa @ Purdue</a> |
   <a href="https://www.youtube.com/watch?v=YZZp-idBDpM">Villanova @ Marquette</a>
   <br><br>
-  <a href="https://youtu.be/ork4Q4eoUg4"><img src="http://qraider.com/XT/images/purdue.gif">
+  <a href="https://youtu.be/ork4Q4eoUg4"><img src="http://qraider.com/XT/images/purdue.gif"> </a>
 </p>
  
 * Commands without a data connection. Because the software is triggered by sound, it can perform even where there is no data connection, Wi-Fi, or Bluetooth.
@@ -54,7 +54,7 @@ Use ultrasonic fingerprints to synchronize and relay data to mobile devices thro
  
 * Indoor location sensing — provide location services more accurate than GPS by making use of the existing speaker infrastructure.
 
-* Anything else you put your mind to.
+* Wherever your imagination takes you.
 
 
 # Demo
@@ -77,9 +77,9 @@ Each ultrasonic fingerprint is composed of a permutation of human-inaudible tone
 
 Data is extracted from a set of 2048 frequency/amplitude vectors derived from incoming audio using a Fast Fourier Transformation (FFT). Over the course of a second, thousands of bits of data can be relayed. Our triggers are concentrated between 16-22 kHz to minimize conflict with environmental noise and to remain human-inaudible. This means that any audio containing our triggers must be in a format that supports high-pitch frequencies (e.g., WAV) and should not be converted or compressed into a lesser format (e.g., MP3).
 
-Ultrasonic fingerprints can be generated to the point where “throwaway” triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. Select fingerprints can be [downloaded here](zip link) for demo and beta purposes. Fingerprints can further be customized and generated without limit on an as-needed basis by contacting info@qraider.com. Please allow up to 24 hours for a response.
+Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. Select fingerprints can be [downloaded here](zip link) for demo and beta purposes. Fingerprints can further be customized and generated without limit on an as-needed basis by contacting info@qraider.com. Please allow up to 24 hours for a response.
 
-###### Note: before publishing an app containing the XT Ultrasonic Fingerprint framework, make sure you’ve read the FAQ and terms & conditions located [here.](http://qraider.com/XT/Demo/FAQ.html)
+###### Note: before publishing an app containing the XT Ultrasonic Fingerprint framework, please make sure you’ve read the FAQ and terms & conditions located [here.](http://qraider.com/XT/FAQ/)
 
 ## iOS
 
