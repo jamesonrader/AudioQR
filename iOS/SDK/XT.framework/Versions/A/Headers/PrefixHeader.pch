@@ -1,0 +1,23 @@
+//
+//  PrefixHeader.pch
+//  MU Lights
+//
+//  Created by Jameson Rader on 3/11/16.
+//  Copyright © 2016 Lancers. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#define emailSubject @"Inquiry - Q RaiderXT"
+#define emailRec @"jrader@qraider.com"
+
+#define triggerUpdateURL @"https://qraider.com/XT/triggers.php"
+#define triggerHitURL @"https://qraider.com/XT/triggerHit.php"
+#define kJSONTriggers @"triggers"
+
+#define kListeningLabelText = @"listening"
+#define kListeningLabelTextColor [UIColor colorWithRed:(170/255.0f) green:(170/255.0f) blue:(170/255.0f) alpha:1.0f]
+#define kListeningActivityIndicatorStyle UIActivityIndicatorViewStyleGray
+
+#endif /* PrefixHeader_pch */
