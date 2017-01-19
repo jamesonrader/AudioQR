@@ -63,6 +63,7 @@ If the provided demo app is in open on your device, playing the following links 
 
 
 * [Commercial Interaction](http://qraider.com/XT/Demo/product_link.php)
+* [Audio Beacon Sample Loop](http://qraider.com/XT/Demo/soundBeaconLoop.wav)
 * [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
 * [Error Recognition](http://qraider.com/XT/Demo/simulated_error.php)
 * [Podcast](http://qraider.com/XT/Demo/audio_only.wav)
