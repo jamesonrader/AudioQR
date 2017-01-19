@@ -1,6 +1,6 @@
-# XT Ultrasonic Fingerprints
+# XT Audio Beacons
 
-Use ultrasonic fingerprints to synchronize and relay data to mobile devices through speakers or a variety of broadcast media. This data-over-audio method utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
+Use XT Audio Beacons to synchronize and relay data to mobile devices through speakers or a variety of broadcast media. This data-over-audio method utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
 
 ##### Advantages include:
 
@@ -8,7 +8,7 @@ Use ultrasonic fingerprints to synchronize and relay data to mobile devices thro
 * Ability to relay data to devices through television broadcasts or any other sound-based media.
 * Ability to synchronize devices to the nearest eighth of a second.
 
-# Who’s using XT Ultrasonic Fingerprints?
+# Who’s using XT Audio Beacons?
 ###### XT ultrasonic fingerprints have been enjoyed by over 1,000,000 users across three continents. Some of our clients include the following:
 
 ![Purdue University](http://qraider.com/images/clientssmall/purdue.png "Purdue University")
@@ -39,7 +39,7 @@ Use ultrasonic fingerprints to synchronize and relay data to mobile devices thro
  
 * Concerts, sporting events, and live shows — synchronize a stadium of smartphones and make the crowd your canvas.
 
-<p align="center"> 
+<p align="center">
   <b>Synchronization</b><br>
   <a href="https://youtu.be/ork4Q4eoUg4">Villanova @ Purdue</a> |
   <a href="https://www.youtube.com/watch?v=UkxqUhp2RCk">Iowa @ Purdue</a> |
@@ -73,7 +73,7 @@ If the provided demo app is in open on your device, playing the following links 
 
 ## How it works
 
-Each ultrasonic fingerprint is composed of a permutation of human-inaudible tones lasting between 0.0005 and 0.002 seconds. The duration of the fingerprint is variable and depends on the amount of data relayed — typically a complete trigger lasts anywhere from 0.30 to 2.0 seconds. 
+Any speaker can become an XT Audio Beacon. XT Audio Beacons are powered by ultrasonic fingerprints, each of which is composed of a permutation of inaudible tones lasting between 0.0005 and 0.002 seconds. The duration of the fingerprint is variable and depends on the amount of data relayed — typically a complete trigger lasts anywhere from 0.30 to 2.0 seconds. 
 
 Data is extracted from a set of 2048 frequency/amplitude vectors derived from incoming audio using a Fast Fourier Transformation (FFT). Over the course of a second, thousands of bits of data can be relayed. Our triggers are concentrated between 16-22 kHz to minimize conflict with environmental noise and to remain human-inaudible. This means that any audio containing our triggers must be in a format that supports high-pitch frequencies (e.g., WAV) and should not be converted or compressed into a lesser format (e.g., MP3).
 
