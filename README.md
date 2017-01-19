@@ -9,7 +9,7 @@ Use XT Audio Beacons to synchronize and relay data to mobile devices through spe
 * Ability to synchronize devices to the nearest eighth of a second.
 
 # Who’s using XT Audio Beacons?
-###### XT ultrasonic fingerprints have been enjoyed by over 1,000,000 users across three continents. Some of our clients include the following:
+###### XT Audio Beacons have been enjoyed by over 1,000,000 users across three continents. Some of our clients include the following:
 
 ![Purdue University](http://qraider.com/images/clientssmall/purdue.png "Purdue University")
 ![Maquette University](http://qraider.com/images/clientssmall/marquette.png "Maquette University")
