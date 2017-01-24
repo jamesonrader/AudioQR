@@ -78,7 +78,9 @@ Any speaker can become an XT Audio Beacon. XT Audio Beacons are powered by ultra
 
 Data is extracted from a set of 2048 frequency/amplitude vectors derived from incoming audio using a Fast Fourier Transformation (FFT). Over the course of a second, thousands of bits of data can be relayed. Our triggers are concentrated between 16-22 kHz to minimize conflict with environmental noise and to remain human-inaudible. This means that any audio containing our triggers must be in a format that supports high-pitch frequencies (e.g., WAV) and should not be converted or compressed into a lesser format (e.g., MP3).
 
-Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. Select fingerprints can be [downloaded here](zip link) for demo and beta purposes. Fingerprints can further be customized and generated without limit on an as-needed basis by contacting info@qraider.com. Please allow up to 24 hours for a response.
+Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. 
+
+##### To receive the zip of starter WAV files, please email info@qraider.com. Unique WAV files for check-in and authorization purposes can also generated upon request. Please allow up to 24 hours for a response.
 
 ###### Note: before publishing an app containing the XT Ultrasonic Fingerprint framework, please make sure you’ve read the FAQ and terms & conditions located [here.](http://qraider.com/XT/FAQ/)
 
