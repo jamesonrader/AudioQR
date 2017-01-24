@@ -36,8 +36,6 @@ Use XT Audio Beacons to synchronize and relay data to mobile devices through spe
 * Location-based “push” notifications. Users can be segmented by proximity to various speakers.
  
 * Smartphones in the same room or across the globe can be synchronized and given precisely timed commands in real-time, or minutes, hours, or even days after the trigger was detected.
- 
-* Concerts, sporting events, and live shows — synchronize a stadium of smartphones and make the crowd your canvas.
 
 <p align="center">
   <b>Synchronization</b><br>
