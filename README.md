@@ -80,7 +80,7 @@ Data is extracted from a set of 2048 frequency/amplitude vectors derived from in
 
 Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. 
 
-##### To receive the zip of starter WAV files, please email info@qraider.com. Unique WAV files for check-in and authorization purposes can also generated upon request. Please allow up to 24 hours for a response.
+##### To receive WAV files beyond those included in the starter pack, please email info@qraider.com. Unique WAV files for check-in and authorization purposes can also generated upon request. Please allow up to 24 hours for a response.
 
 ###### Note: before publishing an app containing the XT Ultrasonic Fingerprint framework, please make sure you’ve read the FAQ and terms & conditions located [here.](http://qraider.com/XT/FAQ/)
 
