@@ -51,7 +51,7 @@
     
     //navigation bar
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationItem.title = @"XT Fingerprint Detector";
+    self.navigationItem.title = @"XT Demo";
 }
 
 
@@ -301,7 +301,7 @@
         [_webview performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
         self.navigationItem.leftBarButtonItem = NULL;
         _proximityLevel = 0;
-        self.navigationItem.title = @"XT Fingerprint Detector";
+        self.navigationItem.title = @"XT Demo";
         [self performSelector:@selector(switchWebViewShowing) withObject:nil afterDelay:1];
     }
 }
