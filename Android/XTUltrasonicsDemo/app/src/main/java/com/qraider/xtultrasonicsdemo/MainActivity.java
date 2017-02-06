@@ -84,7 +84,7 @@ public class MainActivity extends XTUltrasonicsActivity {
         /* sound-beacon demo. Rather than have beacon IDs, each sound-beacon emits a unique fingerprint, allowing beacon A to be distinguished from beacon B.
            Any ultrasonic fingerprint on loop can serve as a beacon track. */
         //link to loop track: http://qraider.com/XT/Demo/soundBeaconLoop.wav
-        if(title.equalsIgnoreCase("C-300-400") || title.equalsIgnoreCase("C-400-300")) //track is a loop, so order is variable
+        if(title.equalsIgnoreCase("C-99-97") || title.equalsIgnoreCase("C-97-99")) //track is a loop, so order is variable
         {
             //set proximity level based on magnitude
             if (amplitude > 250000) {
