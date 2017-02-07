@@ -126,7 +126,7 @@
     
     /* sound-beacon demo. Rather than have beacon IDs, each sound-beacon emits a unique fingerprint, allowing beacon A to be distinguished from beacon B. Any ultrasonic fingerprint on loop can serve as a beacon track. */
     //link to example loop track: http://qraider.com/XT/Demo/soundBeaconLoop.wav
-    if ([title isEqualToString:@"C-99-97"] || [title isEqualToString:@"C-97-99"]) //track is a loop, so order is variable
+    if ([title isEqualToString:@"C-400-300"] || [title isEqualToString:@"C-300-400"]) //track is a loop, so order is variable
     {
         
         //set proximity level based on magnitude
