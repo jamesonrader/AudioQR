@@ -65,8 +65,8 @@ If the provided demo app is in open on your device, playing the following links 
 * [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
 * [Error Recognition](http://qraider.com/XT/Demo/simulated_error.php)
 * [Podcast](http://qraider.com/XT/Demo/audio_only.wav)
-* [Location-Based Notification 1](http://qraider.com/XT/Demo/300-95.wav)
-* [Location-Based Notification 2](http://qraider.com/XT/Demo/400-95.wav)
+* [Location-Based Notification 1](http://qraider.com/XT/Demo/C-398-399.wav)
+* [Location-Based Notification 2](http://qraider.com/XT/Demo/C-399-398.wav)
 
 # Integration
 
