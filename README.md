@@ -60,10 +60,10 @@ Use XT Audio Beacons to synchronize and relay data to mobile devices through spe
 If the provided demo app is in open on your device, playing the following links from your desktop will trigger various events.
 
 
-* [Commercial Interaction](http://qraider.com/XT/Demo/product_link.php)
+* [Error Recognition](http://qraider.com/XT/Demo/simulated_error.php)
+* [Commercial Interaction](http://qraider.com/XT/Demo/product_link.php) (due to audio compression, [video version](http://qraider.com/XT/Demo/ProductPlacement.mov) must be downloaded)
 * [Audio Beacon Sample Loop](http://qraider.com/XT/Demo/soundBeaconLoop.wav)
 * [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
-* [Error Recognition](http://qraider.com/XT/Demo/simulated_error.php)
 * [Podcast](http://qraider.com/XT/Demo/audio_only.wav)
 * [Location-Based Notification 1](http://qraider.com/XT/Demo/C-398-399.wav)
 * [Location-Based Notification 2](http://qraider.com/XT/Demo/C-399-398.wav)
