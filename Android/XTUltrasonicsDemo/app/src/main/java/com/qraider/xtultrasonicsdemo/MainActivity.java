@@ -60,7 +60,7 @@ public class MainActivity extends XTUltrasonicsActivity {
         // PRODUCT DISPLAY
         //================================================================================
         //link to commercial: http://qraider.com/XT/Demo/XTcommercial.html
-        if (title.equalsIgnoreCase("C-400-96")) {
+        if (title.equalsIgnoreCase("C-400-100")) {
             presentWebView("http://www.coca-colaproductfacts.com/en/coca-cola-products/coca-cola-zero/", "Coke Zero");
 
             //set proximity to green to signify loading
@@ -71,7 +71,7 @@ public class MainActivity extends XTUltrasonicsActivity {
         // ERROR RECOGNITION AND RESPONSE
         //================================================================================
         //link to simulated error: http://qraider.com/XT/Demo/simulated_error.html
-        if(title.equalsIgnoreCase("C-300-96")) {
+        if(title.equalsIgnoreCase("C-399-100")) {
             presentWebView("https://support.directv.com/equipment/1609", "DirectTV Error 771");
 
             //set proximity to green to signify loading
@@ -84,7 +84,7 @@ public class MainActivity extends XTUltrasonicsActivity {
         /* sound-beacon demo. Rather than have beacon IDs, each sound-beacon emits a unique fingerprint, allowing beacon A to be distinguished from beacon B.
            Any ultrasonic fingerprint on loop can serve as a beacon track. */
         //link to loop track: http://qraider.com/XT/Demo/soundBeaconLoop.wav
-        if(title.equalsIgnoreCase("C-400-300") || title.equalsIgnoreCase("C-300-400")) //track is a loop, so order is variable
+        if(title.equalsIgnoreCase("C-400-399") || title.equalsIgnoreCase("C-399-400")) //track is a loop, so order is variable
         {
             //set proximity level based on magnitude
             if (amplitude > 250000) {
@@ -120,23 +120,23 @@ public class MainActivity extends XTUltrasonicsActivity {
         // COUPON DIALOG
         //================================================================================
         //link to audio: http://qraider.com/XT/Demo/audio_only.wav
-        if(title.equalsIgnoreCase("C-400-100")) {
+        if(title.equalsIgnoreCase("C-100-400")) {
             presentAlert("Thanks for listening!", "Click 'Proceed' to collect a coupon for $5 off a yearly subscription to the Wall Street Journal", "http://subscription.wsj.com/", "The Wall Street Journal");
         }
 
         //================================================================================
         // ULTRASONIC "PUSH" NOTIFICATION (1)
         //================================================================================
-        //link to trigger: http://qraider.com/XT/Demo/300-95.wav
-        if (title.equalsIgnoreCase("C-300-95")) {
+        //link to trigger: http://qraider.com/XT/Demo/C-398-399.wav
+        if (title.equalsIgnoreCase("C-398-399")) {
             presentAlert("10% off all merchandise!", "10% off all merchandise until the end of the third period.");
         }
 
         //================================================================================
         // ULTRASONIC "PUSH" NOTIFICATION (2)
         //================================================================================
-        //link to trigger: http://qraider.com/XT/Demo/400-95.wav
-        if (title.equalsIgnoreCase("C-400-95")) {
+        //link to trigger: http://qraider.com/XT/Demo/C-399-398.wav
+        if (title.equalsIgnoreCase("C-399-398")) {
             presentAlert("Tickets", "Fans, the Thunder are back in town this Thursday night. Click here to purchase your tickets.");
         }
     }
