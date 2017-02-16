@@ -100,7 +100,7 @@
     // PRODUCT DISPLAY
     //================================================================================
     //link to commercial: http://qraider.com/XT/Demo/XTcommercial.html
-    if ([title isEqualToString:@"C-400-96"]) {
+    if ([title isEqualToString:@"C-400-100"]) {
         [self presentWebViewWithURL:@"http://www.coca-colaproductfacts.com/en/coca-cola-products/coca-cola-zero/" andTitle:@"Coke Zero"];
         
         //set proximity to green to signify loading
@@ -112,7 +112,7 @@
     // ERROR RECOGNITION AND RESPONSE
     //================================================================================
     //link to simulated error: http://qraider.com/XT/Demo/simulated_error.html
-    if([title isEqualToString:@"C-300-96"]) {
+    if([title isEqualToString:@"C-399-100"]) {
         [self presentWebViewWithURL:@"https://support.directv.com/equipment/1609"
                            andTitle:@"DirectTV Error 771"];
         
@@ -126,7 +126,7 @@
     
     /* sound-beacon demo. Rather than have beacon IDs, each sound-beacon emits a unique fingerprint, allowing beacon A to be distinguished from beacon B. Any ultrasonic fingerprint on loop can serve as a beacon track. */
     //link to example loop track: http://qraider.com/XT/Demo/soundBeaconLoop.wav
-    if ([title isEqualToString:@"C-400-300"] || [title isEqualToString:@"C-300-400"]) //track is a loop, so order is variable
+    if ([title isEqualToString:@"C-400-399"] || [title isEqualToString:@"C-399-400"]) //track is a loop, so order is variable
     {
         
         //set proximity level based on magnitude
@@ -159,16 +159,16 @@
     //================================================================================
     // ULTRASONIC "PUSH" NOTIFICATION (1)
     //================================================================================
-    //link to trigger: http://qraider.com/XT/Demo/300-95.wav
-    if ([title isEqualToString:@"C-300-95"]) {
+    //link to trigger: http://qraider.com/XT/Demo/C-398-399.wav
+    if ([title isEqualToString:@"C-398-399"]) {
         [self localNotificationWithText:@"REMINDER: 10% off all merchandise until the end of the third period."];
     }
     
     //================================================================================
     // ULTRASONIC "PUSH" NOTIFICATION (2)
     //================================================================================
-    //link to trigger: http://qraider.com/XT/Demo/400-95.wav
-    if ([title isEqualToString:@"C-400-95"]) {
+    //link to trigger: http://qraider.com/XT/Demo/C-399-398.wav
+    if ([title isEqualToString:@"C-399-398"]) {
         [self localNotificationWithText:@"Fans, the Thunder are back in town this Thursday night. Click here to purchase your tickets."];
     }
     
@@ -177,7 +177,7 @@
     // COUPON DIALOG
     //================================================================================
     //link to audio: http://qraider.com/XT/Demo/audio_only.wav
-    if([title isEqualToString:@"C-400-100"]) {
+    if([title isEqualToString:@"C-100-400"]) {
         [self createAlertWithTitle:@"Thanks for listening!" AndBody:@"Click 'Proceed' to collect a coupon for $5 off a yearly subscription to the Wall Street Journal" AndURL:@"http://subscription.wsj.com/" AndURLTitle:@"The Wall Street Journal" WithPositiveText:@"Proceed" AndCancelOption:YES];
     }
     
