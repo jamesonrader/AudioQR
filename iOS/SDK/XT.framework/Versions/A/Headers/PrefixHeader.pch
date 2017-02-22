@@ -9,11 +9,11 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
-#define emailSubject @"Inquiry - Q RaiderXT"
+#define emailSubject @"Inquiry - Q Raider XT"
 #define emailRec @"jrader@qraider.com"
 
-#define triggerUpdateURL @"https://qraider.com/XT/triggers.php"
-#define triggerHitURL @"https://qraider.com/XT/triggerHit.php"
+#define triggerUpdateURL @"http://qraider.com/XT/triggers.php"
+#define triggerHitURL @"http://qraider.com/XT/triggerHit.php"
 #define kJSONTriggers @"triggers"
 
 #define kListeningLabelText = @"listening"
