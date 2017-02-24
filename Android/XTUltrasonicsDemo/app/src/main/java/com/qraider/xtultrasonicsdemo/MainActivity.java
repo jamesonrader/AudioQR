@@ -127,16 +127,16 @@ public class MainActivity extends XTUltrasonicsActivity {
         //================================================================================
         // ULTRASONIC "PUSH" NOTIFICATION (1)
         //================================================================================
-        //link to trigger: http://qraider.com/XT/Demo/C-398-399.wav
-        if (title.equalsIgnoreCase("C-398-399")) {
+        //link to trigger: http://qraider.com/XT/Demo/C-397-399.wav
+        if (title.equalsIgnoreCase("C-397-399")) {
             presentAlert("10% off all merchandise!", "10% off all merchandise until the end of the third period.");
         }
 
         //================================================================================
         // ULTRASONIC "PUSH" NOTIFICATION (2)
         //================================================================================
-        //link to trigger: http://qraider.com/XT/Demo/C-399-398.wav
-        if (title.equalsIgnoreCase("C-399-398")) {
+        //link to trigger: http://qraider.com/XT/Demo/C-399-397.wav
+        if (title.equalsIgnoreCase("C-399-397")) {
             presentAlert("Tickets", "Fans, the Thunder are back in town this Thursday night. Click here to purchase your tickets.");
         }
     }
