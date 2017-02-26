@@ -1,11 +1,13 @@
 # XT Audio Beacons
 
-Use XT Audio Beacons to synchronize and relay data to mobile devices through speakers or a variety of broadcast media. This data-over-audio method utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
+This is a protocol for relaying data through high frequency, inaudible sound waves, essentially converting any speaker into an “Audio-Beacon.” This communications protocol utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method for transmitting data for both iOS and Android. 
 
 ##### Advantages include:
 
 * No reliance on a data connection, including Wi-Fi, Bluetooth, or cellular service.
-* Ability to relay data to devices through television broadcasts or any other sound-based media.
+* Ability to imperceptibly transmit data through online videos, television broadcasts, or any other sound-based media.
+* Enhancing the second-screen experience by allowing mobile devices to be informed of not only of what you are watching, but exactly how far along you are in the program. This also allows second-screens to respond to live events, such as touchdowns or breaking news.
+* Enabling proximity-awareness in slow zones and dead spots using existing speaker infrastructure.
 * Ability to synchronize devices to the nearest eighth of a second.
 
 # Who’s using XT Audio Beacons?
