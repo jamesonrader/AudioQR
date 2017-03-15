@@ -80,7 +80,7 @@ Data is extracted from a set of 2048 frequency/amplitude vectors derived from in
 
 Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. 
 
-##### To receive WAV files beyond those included in the starter pack, please email info@qraider.com. Unique WAV files for check-in and authorization purposes can also generated upon request. Please allow up to 24 hours for a response.
+##### To receive WAV files beyond those included in the starter pack, please contact [info@qraider.com](http://qraider.com/#contact). Unique WAV files for check-in and authorization purposes can also generated upon request. Please allow up to 24 hours for a response.
 
 ###### Note: before publishing an app containing the XT Ultrasonic Fingerprint framework, please make sure you’ve read the FAQ and terms & conditions located [here.](http://qraider.com/XT/FAQ/)
 
@@ -98,7 +98,7 @@ The amplitude measure can be used as a rough indicator of proximity to the outpu
 
 (4) To get a list of trigger titles, call the method `[self logTriggerTitles]` on the `XTUltrasonicsViewController` subclass. 
 	
-###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles`, simply contact info@qraider.com for customization.
+###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles`, simply contact [info@qraider.com](http://qraider.com/#contact) for customization.
 
 (5) (optional) To control the `UILabel` and `UIActivityIndicator` at the bottom of the screen, use the methods 
 
@@ -121,7 +121,7 @@ To stop the label and activity indicator from appearing when the view loads, ove
 
 (4) To get a list of trigger titles, call the method `logTriggerTitles()` on the `XTUltrasonicsActivity` subclass. 
 
-###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles()`, simply contact info@qraider.com for customization.
+###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles()`, simply contact [info@qraider.com](http://qraider.com/#contact) for customization.
 
 (5) Request microphone permission. This can be handled automatically for you by setting `handleRecordPermissionsForMe = true` in `OnCreate.` To handle recording permission yourself, set `handleRecordPermissionsForMe = false` in `OnCreate.` 
 
