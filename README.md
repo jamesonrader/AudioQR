@@ -1,6 +1,6 @@
 # XT Audio Beacons
 
-This is a protocol for relaying data through high frequency, inaudible sound waves, essentially converting any speaker into an “Audio-Beacon.” This communications protocol utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method for transmitting data for both iOS and Android. 
+This is a protocol for relaying data through inaudible, ultrasonic sound waves, essentially converting any speaker into an “Audio-Beacon.” This communications protocol utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method for transmitting data for both iOS and Android. 
 
 ##### Advantages include:
 
