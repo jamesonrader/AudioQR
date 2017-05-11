@@ -62,8 +62,8 @@ This is a protocol for relaying data through inaudible, ultrasonic sound waves, 
 If the provided demo app is in open on your device, playing the following links from your desktop will trigger various events.
 
 
-* [Error Recognition](http://qraider.com/XT/Demo/simulated_error.php)
 * [Commercial Interaction](http://qraider.com/XT/Demo/product_link.php) (due to audio compression, [video version](http://qraider.com/XT/Demo/ProductPlacement.mov) must be downloaded)
+* [Error Recognition](https://www.dropbox.com/s/rwz7asy4jemcnoh/output.mov?dl=0)
 * [Audio Beacon Sample Loop](http://qraider.com/XT/Demo/soundBeaconLoop.wav)
 * [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
 * [Podcast](http://qraider.com/XT/Demo/audio_only.wav)
