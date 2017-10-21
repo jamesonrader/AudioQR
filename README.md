@@ -1,5 +1,5 @@
 
-### NOTE: THIS GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please email jameson@cueaudio.com
+### NOTE: THE GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please email jameson@cueaudio.com
 
 # XT Audio Beacons
 
