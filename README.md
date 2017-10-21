@@ -1,3 +1,6 @@
+
+### NOTE: THIS GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please email jameson@cueaudio.com
+
 # XT Audio Beacons
 
 Use XT Audio Beacons to synchronize and relay data to mobile devices through speakers or a variety of broadcast media. This data-over-audio method utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method of relaying data for both iOS and Android.
