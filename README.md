@@ -1,3 +1,6 @@
+
+### NOTE: THIS GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please email jameson@cueaudio.com
+
 # XT Audio Beacons
 
 This is a protocol for relaying data through inaudible, ultrasonic sound waves, essentially converting any speaker into an “Audio-Beacon.” This communications protocol utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method for transmitting data for both iOS and Android. 
