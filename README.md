@@ -1,7 +1,12 @@
 
+## Welcome to the world's fastest, longest-range data-over-audio solution. 
+
+Send hundreds of bits/second via inaudible, high-frequency sound waves. Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), CUE Audio's solution has successfully broadcasted ultrasonic signals in outdoor environments to crowds of 80,000+ stadium attendees, with a propogation distance of over 150 meters and negligible latency above the speed of sound.  
+
+
 ### NOTE: THE GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please email hello@cueaudio.com
 
-# XT Audio Beacons
+# CUE Audio
 
 This is a protocol for relaying data through inaudible, ultrasonic sound waves, essentially converting any speaker into an “Audio-Beacon.” This communications protocol utilizes sound waves in a similar way to how Bluetooth employs electromagnetic waves, offering an alternative method for transmitting data for both iOS and Android. 
 
@@ -13,8 +18,8 @@ This is a protocol for relaying data through inaudible, ultrasonic sound waves, 
 * Enabling proximity-awareness in slow zones and dead spots using existing speaker infrastructure.
 * Ability to synchronize devices to the nearest eighth of a second.
 
-# Who’s using XT Audio Beacons?
-###### XT Audio Beacons have been enjoyed by over 1,000,000 users across three continents. Some of our clients include the following:
+# Who’s using CUE Audio?
+###### CUE Audio have been enjoyed by over 5,000,000 users across three continents. Some of our clients include the following:
 
 ![Purdue University](http://qraider.com/images/clientssmall/purdue.png "Purdue University")
 ![Maquette University](http://qraider.com/images/clientssmall/marquette.png "Maquette University")
@@ -59,90 +64,10 @@ This is a protocol for relaying data through inaudible, ultrasonic sound waves, 
 
 * Wherever your imagination takes you.
 
-
-# Demo
-
-If the provided demo app is in open on your device, playing the following links from your desktop will trigger various events.
-
-
-* [Commercial Interaction](http://qraider.com/XT/Demo/product_link.php) (due to audio compression, [video version](http://qraider.com/XT/Demo/ProductPlacement.mov) must be downloaded)
-* [Error Recognition](https://www.dropbox.com/s/rwz7asy4jemcnoh/output.mov?dl=0)
-* [Audio Beacon Sample Loop](http://qraider.com/XT/Demo/soundBeaconLoop.wav)
-* [Unlockable Content](http://qraider.com/XT/Demo/unlockable_content.php)
-* [Podcast](http://qraider.com/XT/Demo/audio_only.wav)
-* [Location-Based Notification 1](http://qraider.com/XT/Demo/C-398-399.wav)
-* [Location-Based Notification 2](http://qraider.com/XT/Demo/C-399-398.wav)
-
-# Integration
-
 ## How it works
 
-Any speaker can become an XT Audio Beacon. XT Audio Beacons are powered by ultrasonic fingerprints, each of which is composed of a permutation of inaudible tones lasting between 0.0005 and 0.002 seconds. The duration of the fingerprint is variable and depends on the amount of data relayed — typically a complete trigger lasts anywhere from 0.30 to 2.0 seconds. Over the course of a second, thousands of bits of data can be relayed. Our ultrasonic signals are concentrated between 16-22 kHz to minimize conflict with environmental noise and to remain human-inaudible. This means that any audio containing our triggers must be in a format that supports high-pitch frequencies (e.g., WAV) and should not be converted or compressed into a lesser format (e.g., MP3).
+Any speaker can become CUE-compatible. CUE Audio is powered by ultrasonic fingerprints, each of which is composed of a permutation of inaudible tones lasting between 0.0005 and 0.002 seconds. The duration of the fingerprint is variable and depends on the amount of data relayed — typically a complete trigger lasts anywhere from 0.30 to 2.0 seconds. Over the course of a second, thousands of bits of data can be relayed. Our ultrasonic signals are concentrated between 18-20 kHz to minimize conflict with environmental noise and to remain human-inaudible. This means that any audio containing our triggers must be in a format that supports high-pitch frequencies (e.g., WAV) and should not be converted or compressed into a lesser format (e.g., MP3).
 
 Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. 
 
 ##### To receive WAV files beyond those included in the starter pack, please contact [hello@cueaudio.com](http://qraider.com/#contact). Unique WAV files for check-in and authorization purposes can also generated upon request. Please allow up to 24 hours for a response.
-
-###### Note: before publishing an app containing the XT Ultrasonic Fingerprint framework, please make sure you’ve read the FAQ and terms & conditions located [here.](http://qraider.com/XT/FAQ/)
-
-## iOS
-
-(1) Add `#import <XT/XT.h>` to your header file and make your `UIViewController` a subclass of `XTUltrasonicsViewController`.
-
-(2) Set the `XTdelegate` of the `XTUltrasonicsViewController`, typically `self`.
-
-(3) Implement the method
-
-	- (void) didHearTriggerWithTitle:(NSString *)title andAmplitude:(float) mag
-
-The amplitude measure can be used as a rough indicator of proximity to the outputting speaker.
-
-(4) To get a list of trigger titles, call the method `[self logTriggerTitles]` on the `XTUltrasonicsViewController` subclass. 
-	
-###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles`, simply contact [hello@cueaudio.com](http://qraider.com/#contact) for customization.
-
-(5) (optional) To control the `UILabel` and `UIActivityIndicator` at the bottom of the screen, use the methods 
-
-* `- (BOOL) changeListeningLabelText: (NSString *) text`
-* `- (BOOL) changeListeningLabelTextColor: (UIColor *) color`
-* `- (BOOL) changeListeningActivityIndicatorColor: (UIColor *) color`
-* `- (void) displayListeningLabel: (BOOL) display WithFadeTime: (float) t`
-
-To stop the label and activity indicator from appearing when the view loads, overwrite the method `- (void) microphonePermissionGranted` and do not call `[super microphonePermissionGranted]`.
-
-
-
-### Android
-
-(1) Add the `xt.aar` file to `libs` in your `app` directory. [See here](http://qraider.com/XT/images/android_step_one.png "Android - Step 1")
-
-(2) Add `flatDir { dirs 'libs' }` to repositories in your top-level build gradle. [See here](http://qraider.com/XT/images/android_step_two.png "Android - Step 2")
-
-(3) Subclass `XTUltrasonicsActivity` and implement the method `public void didHearTriggerWithTitle(String title) andAmplitude:(float) mag`. The amplitude measure can be used as a rough indicator of proximity to the outputting speaker.
-
-(4) To get a list of trigger titles, call the method `logTriggerTitles()` on the `XTUltrasonicsActivity` subclass. 
-
-###### An unlimited number of triggers and trigger titles can be generated, even to the point of creating “throwaway” triggers for authorization and check-in purposes. If more triggers are needed than the default number listed by calling `logTriggerTitles()`, simply contact [hello@cueaudio.com](http://qraider.com/#contact) for customization.
-
-(5) Request microphone permission. This can be handled automatically for you by setting `handleRecordPermissionsForMe = true` in `OnCreate.` To handle recording permission yourself, set `handleRecordPermissionsForMe = false` in `OnCreate.` 
-
-To change the text presented during the microphone permission request process, simply set the following (`public static`) strings in `OnCreate`:
-
-* `kPrePermissionTitle` (Title for dialog that precedes permission request).
-* `kPrePermissionBody` (Body for dialog that precedes permission request).
-* `kPermissionBodyRejected` (Prompt that leads to app settings if mic permission is denied).
-* `kMicPermissionDenyTitle` (If mic permission is denied, the subsequent time the app is opened a dialog is displayed with this title).
-* `kMicPermissionDenyBody` (If mic permission is denied, the subsequent time the app is opened a dialog is displayed with this body).
-
-Add to your manifest file:
-
-* `<uses-permission android:name="android.permission.INTERNET" />` 
-* `<uses-permission android:name="android.permission.RECORD_AUDIO" />`
-
-(6) (optional) To control the `TextView` at the bottom of the screen, use the methods 
-
-* `protected boolean changeListeningLabelText(String text)`
-* `protected boolean changeListeningLabelTextColor(int c)`
-* `protected void displayListeningLabelWithFadeTime(boolean display, int t)`
-
-To stop the `TextView` from appearing when the view loads, overwrite the method `public void microphonePermissionGranted()` and do not call `super.microphonePermissionGranted()`.
