@@ -4,7 +4,7 @@
 Send hundreds of bits/second via inaudible, high-frequency sound waves. Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), CUE Audio's solution has successfully broadcasted ultrasonic signals in outdoor environments to crowds of 80,000+ stadium attendees, with a propogation distance of over 150 meters and negligible latency above the speed of sound.  
 
 
-### NOTE: THE GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please visit ![CUEaudio.com](https://cueaudio.com/)
+### NOTE: THE GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please visit [CUEaudio.com](https://cueaudio.com/).
 
 # CUE Audio
 
