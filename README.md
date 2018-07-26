@@ -4,7 +4,7 @@
 Send hundreds of bits/second via inaudible, high-frequency sound waves. Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), CUE Audio's solution has successfully broadcasted ultrasonic signals in outdoor environments to crowds of 80,000+ stadium attendees, with a propogation distance of over 150 meters and negligible latency above the speed of sound.  
 
 
-### NOTE: THE GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please email hello@cueaudio.com
+### NOTE: THE GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please visit ![CUEaudio.com](https://cueaudio.com/)
 
 # CUE Audio
 
@@ -36,6 +36,7 @@ This is a protocol for relaying data through inaudible, ultrasonic sound waves, 
 ![Atlanta Hawks](http://qraider.com/images/clientssmall/atlantahawks.png "Atlanta Hawks")
 ![Florida Panthers](http://qraider.com/images/clientssmall/floridapanthers.png "Florida Panthers")
 
+[More clients can be viewed here.](https://www.cueaudio.com/)
 
 # Possible uses
 
@@ -70,4 +71,4 @@ Any speaker can become CUE-compatible. CUE Audio is powered by ultrasonic finger
 
 Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. 
 
-##### To receive WAV files beyond those included in the starter pack, please contact [hello@cueaudio.com](http://qraider.com/#contact). Unique WAV files for check-in and authorization purposes can also generated upon request. Please allow up to 24 hours for a response.
+##### To receive WAV files beyond those included in the starter pack, please contact [hello@cueaudio.com](https://www.cueaudio.com/contact/).
