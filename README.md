@@ -1,10 +1,7 @@
 
 ## Welcome to the world's fastest, longest-range data-over-audio solution. 
 
-Send hundreds of bits/second via inaudible, high-frequency sound waves. Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), CUE Audio's solution has successfully broadcasted ultrasonic signals in outdoor environments to crowds of 80,000+ stadium attendees, with a propogation distance of over 150 meters and negligible latency above the speed of sound.  
-
-
-### NOTE: THE GITHUB VERSION OF THIS LIBRARY HAS BEEN DEPRECATED. For inquiries about the latest commercial SDK, please visit [CUEaudio.com](https://cueaudio.com/).
+Transmit data through inaudible, high-frequency sound waves. Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), CUE Audio's solution has successfully broadcasted ultrasonic signals in outdoor environments to crowds of 80,000+ stadium attendees, with a propogation distance of over 150 meters and negligible latency above the speed of sound.  
 
 # CUE Audio
 
@@ -72,3 +69,135 @@ Any speaker can become CUE-compatible. CUE Audio is powered by ultrasonic finger
 Ultrasonic fingerprints can be generated to the point where single-use/throwaway triggers can be utilized for authorization and validation purposes, such as check-ins, private keys, and even payment processing. 
 
 ##### To receive WAV files beyond those included in the starter pack, please contact [hello@cueaudio.com](https://www.cueaudio.com/contact/).
+
+
+# CUE Audio -- iOS Demo
+
+To run CUE Audio's ultrasonic engine on iOS, simply follow these steps:
+
+(1) Go into `iOS/consumer` and open `consumer.xcodeproj` in Xcode
+
+(2) At the top of `AppDelegate.m`, insert your API Key into the following:
+
+`#define API_KEY @"yourAPIKey"`
+
+(3) Run the project. Transmit ultrasonic audio by playing a trigger from the `SampleTones` directory. Upon registering the tone, the device display the binary signal received.
+
+(4) To customize the ultrasonic trigger response, simply modify the following callback within your `ViewController.m` file:
+
+```
+[CUEEngine.sharedInstance setEngineCallback:^ void( ECM mode, NSArray<NSNumber*>* symbols) {
+        NSString* trigger = NULL;
+        
+        switch (mode)
+        {       
+            case MODE_3_TONE:
+                trigger = [NSString stringWithFormat:@"%@,%@,%@", symbols[0], symbols[1], symbols[2]];
+                break;
+            
+            default:
+                break;
+        }
+        
+        if(trigger != NULL) {
+            //modify UI on main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self myMethod: trigger];
+            });
+        }
+    }];
+```
+
+## Custom Implementation Notes 
+
+(1) Copy `engine.framework`, `Accelerate.framework`, and `libc++.tbd` into `Link Binary With Libraries` within the `Build Phases`  tab in your target.
+
+(2) In your `Info.plist` file, make sure you set `Privacy - Microphone Usage Description`.
+
+(3) Import the necessary header files:
+
+```
+#import <engine/AudioSession.h>
+#import <engine/CUEEngine.h>
+#import <engine/Config.h>
+```
+
+(3) Before you start listening in your project, make sure to configure the audio session by calling:
+
+`[AudioSession setup]`
+
+(4) Setup the engine using your API Key and start listening. 
+
+(5) To stop listening in your project, simply call `[CUEEngine.sharedInstance stopListening]`.
+
+(6) To check listening status, call `[CUEEngine.sharedInstance isListening]`.
+
+(7) If you would like to have custom microphone on-boarding UI, display the custom component before setting up the engine. Otherwise, iOS will automatically request microphone permission upon engine setup. 
+
+# CUE Audio -- Android Demo
+
+To run CUE Audio's ultrasonic engine on Android, simply follow these steps:
+
+(1) Open the `Android/consumer` directory, then open the `consumer` application in Android Studio. 
+
+(2) At the top of `MainActivity.java`, insert your API Key into the following:
+
+`private static final String API_KEY = "myAPIKey"`
+
+(3) Run the project. If your Android Studio gradle settings are not configured, it may be necessary to re-sync your project by selecting `File --> Sync Project with Gradle Files`. 
+
+Now, transmit ultrasonic audio by playing a trigger from the `SampleTones` directory. Upon registering the tone, the device display the binary signal received.
+
+(4) To customize the ultrasonic trigger response, simply modify the following callback within  `MainActivity.java`:
+
+```
+CUEEngine.getInstance().setTriggerCallback(new CUEEngineCallbackInterface() {
+                @Override
+                public void engineCallback(ECM mode, final int[] symbols) {
+                    String trigger = null;
+
+                    switch (mode) {
+                        case MODE_3_TONE:
+                            trigger = String.format("%d,%d,%d", symbols[0], symbols[1], symbols[2]);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    if(trigger != null) {
+                        final String constTrigger = trigger;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextView.setText(constTrigger);
+                            }
+                        });
+                    }
+                }
+            });
+```
+
+## Custom Implementation Notes
+
+(1) Make sure you add the cue `engine` AAR library to your project structure:
+
+> Hint: the easiest way to add AARs is to import them as modules. In Android Studio's goto menu `File > New > New Module > Import JAR / ARR`, select AAR to import library files one-by-one. 
+
+(2) After AARs are imported, don't forget to add the dependencies to your `app` project:
+
+```groovy
+dependencies {
+implementation project(':engine')
+...
+}
+``` 
+
+(3) Setup the engine using your API Key and start listening. 
+
+(4) To stop listening in your project, simply call `CUEEngine.getInstance().stopListening()`.
+
+(5) To check listening status, call `CUEEngine.getInstance().isListening()`.
+
+#API Key
+They API Key provided is good for up to 500 users. Please only use it for applications in development, as it is a shared, public API Key and is liable to break at any time. Before pushing a product into production, plaease make sure you have your own API Key by contacting [hello@cueaudio.com](https://www.cueaudio.com/contact/).

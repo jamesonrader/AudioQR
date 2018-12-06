@@ -1,0 +1,8 @@
+#pragma once
+
+static NSString* cfg_11C5x1 = @"{\"name\" : \"trigger--28-jul-2018\",\"GENERATOR+DECODER\" : \"comment\",\"fs_fft\" : 48000,\"gridOrder\" : 9,\"minFreq\" : 17500,\"maxFreq\" : 19500,\"nOnes\" : 5,\"nBits\" : 11,\"tonesPerTrigger\" : 1,\"GENERATOR\" : \"comment\",\"fs_gen\" : 48000,\"tone_volume\" : 0.8,\"duration_ms\" : 100,\"silence_ms\" : 200,\"ramp_ms\" : 50,\"DECODER\" : \"comment\",\"fftOrder\" : 11,\"overlap\" : 4,\"avgHistory\" : 4,\"windowBeta\" : 8.0,\"ratioThreshold\" : 0.8,\"ratioThresh_falsePos\" : 0.8,\"framesConsecRequired\" : 5}";
+
+static NSString* cfg_11C5x1_livemode = @"{\"name\" : \"livemode--28-jul-2018\",\"GENERATOR+DECODER\" : \"comment\",\"fs_fft\" : 48000,\"gridOrder\" : 9,\"minFreq\" : 17500,\"maxFreq\" : 19500,\"nOnes\" : 5,\"nBits\" : 11,\"tonesPerTrigger\" : 1,\"GENERATOR\" : \"comment\",\"fs_gen\" : 48000,\"tone_volume\" : 0.8,\"duration_ms\" : 50,\"ramp_ms\" : 5,\"DECODER\" : \"comment\",\"fftOrder\" : 11,\"overlap\" : 8,\"avgHistory\" : 1,\"windowBeta\" : 8.0,\"ratioThreshold\" : 0.8,\"ratioThresh_falsePos\" : 0.8,\"framesConsecRequired\" : 1}";
+
+static NSString* cfg_11C5x3 = @"{\"name\" : \"trigger--28-jul-2018\",\"GENERATOR+DECODER\" : \"comment\",\"fs_fft\" : 48000,\"gridOrder\" : 9,\"minFreq\" : 17500,\"maxFreq\" : 19500,\"nOnes\" : 5,\"nBits\" : 11,\"tonesPerTrigger\" : 3,\"GENERATOR\" : \"comment\",\"fs_gen\" : 48000,\"tone_volume\" : 0.8,\"duration_ms\" : 100,\"silence_ms\" : 200,\"ramp_ms\" : 50,\"DECODER\" : \"comment\",\"fftOrder\" : 11,\"overlap\" : 4,\"avgHistory\" : 4,\"windowBeta\" : 8.0,\"ratioThreshold\" : 0.8,\"ratioThresh_falsePos\" : 0.8,\"framesConsecRequired\" : 5}";
+
