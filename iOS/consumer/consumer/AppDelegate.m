@@ -17,7 +17,7 @@
 #import "AppDelegate.h"
 
 #define DEFAULT_CONFIG cfg_11C5x3
-#define API_KEY @"R1DtITmleDcsUcaLoIk17Vk0REhZevho"
+#define API_KEY @"N5H0HplaVJYXlqrQZhR1aL0qjp5PSY7U"
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 

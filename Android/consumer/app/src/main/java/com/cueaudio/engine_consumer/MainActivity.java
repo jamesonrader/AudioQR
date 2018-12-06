@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextView;
     private static final int REQUEST_RECORD_AUDIO = 13;
     private static final String DEFAULT_CONFIG = Config.cfg_11C5x1;
-    private static final String API_KEY = "PuVeNnczn1IqDJnqEzO4U85NapUSLGx8";
+    private static final String API_KEY = "N5H0HplaVJYXlqrQZhR1aL0qjp5PSY7U";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
