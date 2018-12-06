@@ -199,5 +199,5 @@ implementation project(':engine')
 
 (5) To check listening status, call `CUEEngine.getInstance().isListening()`.
 
-#API Key
+# API Key
 They API Key provided is good for up to 500 users. Please only use it for applications in development, as it is a shared, public API Key and is liable to break at any time. Before pushing a product into production, plaease make sure you have your own API Key by contacting [hello@cueaudio.com](https://www.cueaudio.com/contact/).
