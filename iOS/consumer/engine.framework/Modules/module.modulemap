@@ -1,0 +1,9 @@
+framework module engine {
+  module CUEEngine {
+    header "CUEEngine.h"
+  }
+
+  module AudioSession {
+    header "AudioSession.h"
+  }
+}

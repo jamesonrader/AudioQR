@@ -12,12 +12,10 @@
 
 #import <engine/AudioSession.h>
 #import <engine/CUEEngine.h>
-#import <engine/Config.h>
 
 #import "AppDelegate.h"
 
-#define DEFAULT_CONFIG cfg_11C5x3
-#define API_KEY @"N5H0HplaVJYXlqrQZhR1aL0qjp5PSY7U"
+#define API_KEY @"H7v7NMMNh6im735w331iLHtqnduxGCTL"
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -40,14 +38,12 @@
         }
     }];
     
-    // Override point for customization after application launch.
     return YES;
 }
 
 - (void) setupEngine
 {
-    //run with valid API key or engine may take up to 5 minutes to re-authenticate
-    [CUEEngine.sharedInstance setupWithConfig:DEFAULT_CONFIG andWithAPIKey:API_KEY];
+    [CUEEngine.sharedInstance setupWithAPIKey:API_KEY];
 }
 
 - (void) startListening {
@@ -56,8 +52,10 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    //to not listen in the background
     [CUEEngine.sharedInstance stopListening];
 }
+
 @end
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =

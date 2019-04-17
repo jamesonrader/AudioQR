@@ -1,4 +1,24 @@
-# CUE Audio -- Android Demo
+# CUE Engine -- Android
+
+## Accessing CUEEngine
+
+1. Add Maven artifactory environment variables to your project's `local.properties` file:
+
+```
+com.cueaudio.maven.url=https://cueaudio.jfrog.io/cueaudio
+com.cueaudio.maven.repokey=libs-release-local
+com.cueaudio.maven.bucket=https://cueaudio.jfrog.io/cueaudio/libs-release-local
+com.cueaudio.maven.username=<username>
+com.cueaudio.maven.password=<password>
+```
+
+2. Import CUEEngine into your project by adding the following to your app's `build.gradle` file:
+
+```
+implementation "com.cueaudio:engine:1.+"
+```
+
+## Using the Demo Project
 
 To run CUE Audio's ultrasonic engine on Android, simply follow these steps:
 
@@ -15,50 +35,58 @@ Now, transmit ultrasonic audio by playing a trigger from the `SampleTones` direc
 (4) To customize the ultrasonic trigger response, simply modify the following callback within  `MainActivity.java`:
 
 ```
-CUEEngine.getInstance().setTriggerCallback(new CUEEngineCallbackInterface() {
-                @Override
-                public void engineCallback(ECM mode, final int[] symbols) {
-                    String trigger = null;
+private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInterface {
+        private final Gson mGson = new Gson();
 
-                    switch (mode) {
-                        case MODE_3_TONE:
-                            trigger = String.format("%d,%d,%d", symbols[0], symbols[1], symbols[2]);
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    if(trigger != null) {
-                        final String constTrigger = trigger;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mTextView.setText(constTrigger);
-                            }
-                        });
-                    }
-                }
-            });
+        @Override
+        public void run(String symbolsJson) {
+            try {
+                JSONObject obj = new JSONObject(symbolsJson);
+                String triggerId = obj.getString("winner-indices");
+                Log.i(TAG, "Trigger Detected with SymbolString: " + triggerId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 ```
 
-## Custom Implementation Notes
+## Custom Implementation
 
-(1) Make sure you add the cue `engine` AAR library to your project structure:
+1. Make sure your app has microphone access granted.
 
-> Hint: the easiest way to add AARs is to import them as modules. In Android Studio's goto menu `File > New > New Module > Import JAR / ARR`, select AAR to import library files one-by-one. 
+2. Setup the engine using your API key:
 
-(2) After AARs are imported, don't forget to add the dependencies to your `app` project:
+```
+CUEEngine.getInstance().setupWithAPIKey(<context>, <apiKey>);
+```
 
-```groovy
-dependencies {
-implementation project(':engine')
-...
-}
-``` 
+You can start and stop listening with the methods:
 
-(3) Setup the engine using your API Key and start listening. 
+```
+CUEEngine.getInstance().startListening();
+CUEEngine.getInstance().stopListening();
+```
 
-(4) To stop listening in your project, simply call `CUEEngine.getInstance().stopListening()`.
+3. To decode data from the engine, set the engine's `ReceiverCallback`. This is the block of code that will execute each time an ultrasonic signal is detected. An example is:
 
-(5) To check listening status, call `CUEEngine.getInstance().isListening()`.
+```
+private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInterface {
+        private final Gson mGson = new Gson();
+
+        @Override
+        public void run(String symbolsJson) {
+            try {
+                JSONObject obj = new JSONObject(symbolsJson);
+                String triggerId = obj.getString("winner-indices");
+                Log.i(TAG, "Trigger Detected with SymbolString: " + triggerId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+```
+
+Then: `CUEEngine.getInstance().setReceiverCallback(new CUEEngineCallbackInterfaceImpl());` 
+
+For details on the structure of the returned JSON, `symbolsJson`, see [here](CUEEngine_JSON_Structure.md).

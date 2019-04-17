@@ -5,6 +5,10 @@
 //  Created by Pi on 09/11/2010.
 //
 
+#pragma once
+
+#import <Foundation/Foundation.h>
+
 #include <CoreAudio/CoreAudioTypes.h>
 // ^ for AudioStreamBasicDescription (digging thru AudioToolbox/AudioToolbox.h)
 
