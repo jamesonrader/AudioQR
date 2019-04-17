@@ -1,9 +1,7 @@
 
-## Welcome to the world's fastest, longest-range data-over-audio solution. 
+# Welcome to the world's fastest, longest-range data-over-audio solution. 
 
-The latest innovation in live events and nearfield communications: data transmission using ultrasonic, inaudible audio, allowing offline/network-free data transfer.
-
-# CUE Audio
+## CUE Audio
 
 Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), we've utilized this solution to successfully broadcasted ultrasonic signals in indoor/outdoor environments to crowds of 80,000+ stadium attendees, with a propogation distance of over 150 meters and negligible latency above the speed of sound.
 
