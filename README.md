@@ -33,7 +33,12 @@ Unlike any competing data-over-audio solution, which work only in quiet environm
 ![Edmonton Oilers](https://d253ypm2x51cw3.cloudfront.net/jpegs/logos/cue-partner-oilers.jpg)
 ![Sherwin Williams](https://d253ypm2x51cw3.cloudfront.net/jpegs/logos/cue-partner-sherwinwilliams.jpg)
 
-# Example Usecases
+# Licensing
+
+Please only use the included API Key for applications in development. The public API Key included in this demo is liable to break at any time. Before pushing a product into production, plaease make sure you have your own API Key by contacting <hello@cueaudio.com>.
+
+
+# Example Use Cases
 
 * Triggering commands on the smartphone through a television broadcast, online video, radio commercial, film and movies. Users can be rewarded for tuning in; products can be linked to during a featured commercial; coupons can be distributed, etc.
 
@@ -58,13 +63,13 @@ Unlike any competing data-over-audio solution, which work only in quiet environm
  
 * Indoor location sensing — provide location services more accurate than GPS by making use of the existing speaker infrastructure.
 
-* Wherever your imagination takes you.
-
-
 # Integration Guide
 
 ## iOS
-[See iOS Documentation]()
+[See iOS Documentation](./doc/iOS_README.md)
 
 ## Android
-[See iOS Documentation]()
+[See iOS Documentation](./doc/Android_README.md)
+
+## Technical Details
+[Engine Callback Structure](./doc/CUEEngine_JSON_Structure.md) 
