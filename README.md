@@ -69,7 +69,7 @@ Please only use the included API Key for applications in development. The public
 [See iOS Documentation](./doc/iOS_README.md)
 
 ## Android
-[See iOS Documentation](./doc/Android_README.md)
+[See Android Documentation](./doc/Android_README.md)
 
 ## Technical Details
 [Engine Callback Structure](./doc/CUEEngine_JSON_Structure.md) 
