@@ -35,7 +35,7 @@ Unlike any competing data-over-audio solution, which work only in quiet environm
 
 # Licensing
 
-Please only use the included API Key for applications in development. The public API Key included in this demo is liable to break at any time. Before pushing a product into production, plaease make sure you have your own API Key by contacting <hello@cueaudio.com>.
+Please only use the included API Key for applications in development. The public API Key included in this demo is liable to break at any time. Before pushing a product into production, plaease make sure you have your own API Key by contacting <hello+github@cueaudio.com>. Learn more at <https://cueaudio.com>.
 
 
 # Example Use Cases
@@ -69,7 +69,7 @@ Please only use the included API Key for applications in development. The public
 [See iOS Documentation](./doc/iOS_README.md)
 
 ## Android
-[See iOS Documentation](./doc/Android_README.md)
+[See Android Documentation](./doc/Android_README.md)
 
 ## Technical Details
 [Engine Callback Structure](./doc/CUEEngine_JSON_Structure.md) 
