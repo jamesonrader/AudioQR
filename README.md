@@ -3,7 +3,7 @@
 
 ## CUE Audio
 
-Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), we've utilized this solution to successfully broadcasted ultrasonic signals in indoor/outdoor environments to crowds of 80,000+ stadium attendees, with a propogation distance of over 150 meters and negligible latency above the speed of sound.
+Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), we've utilized this solution to successfully broadcasted ultrasonic signals in indoor/outdoor environments to crowds of 80,000+ stadium attendees, with a propagation distance of over 150 meters and negligible latency above the speed of sound.
 
 ##### Advantages include:
 
@@ -33,7 +33,7 @@ Unlike any competing data-over-audio solution, which work only in quiet environm
 
 # Licensing
 
-Please only use the included API Key for applications in development. The public API Key included in this demo is liable to break at any time. Before pushing a product into production, plaease make sure you have your own API Key by contacting <hello+github@cueaudio.com>. Learn more at <https://cueaudio.com>.
+Please only use the included API Key for applications in development. The public API Key included in this demo is liable to break at any time. Before pushing a product into production, please make sure you have your own API Key by contacting <hello+github@cueaudio.com>. Learn more at <https://cueaudio.com>.
 
 
 # Example Use Cases
