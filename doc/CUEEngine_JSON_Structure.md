@@ -18,7 +18,7 @@ The symbols detected are always contained within the `raw-indices` parameter. An
 
 ### **Example Payload**
 
-```
+```json
 {
     "latency_ms": 1098.666748046875,
     "mode": "trigger",
@@ -123,7 +123,7 @@ Each payload has a `"mode"` (`"trigger"`, `"live"` or  `"data"`).  Particular `"
 
     The "symbol string" or "indices" of the detected trigger (e.g., `"1.2.3"`).
 
-### Advanced Paramters
+### Advanced Parameters
 
 The following parameters are only needed for advanced metrics, such as estimating distance from the audio source. 
 
@@ -141,7 +141,7 @@ The following parameters are only needed for advanced metrics, such as estimatin
     + `"winner-indices"`:
 
         Indices of winner (e.g., `"1.2.3"`)
-        If the engine is informed (via CUE's API) to only listen for a subset of triggers (rather than all possible triggers), if the detected trigger nearly (but not exactly) matches a trigger from the set supplied, the engine will return modified indicies to match a signal from the initial set. Otherwise, `raw-indices` are returned. For this reason, 
+        If the engine is informed (via CUE's API) to only listen for a subset of triggers (rather than all possible triggers), if the detected trigger nearly (but not exactly) matches a trigger from the set supplied, the engine will return modified indices to match a signal from the initial set. Otherwise, `raw-indices` are returned. For this reason, 
 
     + `"scores"`
 
