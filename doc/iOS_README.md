@@ -64,7 +64,7 @@ To run CUE Audio's ultrasonic engine on iOS, simply follow these steps:
 
 (4) To customize the ultrasonic trigger response, simply modify the following callback within your `ViewController.m` file:
 
-```
+```objective-c
 [CUEEngine.sharedInstance setReceiverCallback:
         ^void( NSString* jsonString )
         {
@@ -91,14 +91,14 @@ Then call the method `[AudioSession setup]`. The audio session should always be 
 
 You can start and stop listening with the methods:
 
-```
+```objective-c
 [CUEEngine.sharedInstance startListening];
 [CUEEngine.sharedInstance stopListening];
 ```
 
 5. To decode data from the engine, set the engine's `ReceiverCallback`. This is the block of code that will execute each time an ultrasonic signal is detected. An example is:
 
-```
+```objective-c
 [CUEEngine.sharedInstance setReceiverCallback:^(NSString *json) {
         NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
