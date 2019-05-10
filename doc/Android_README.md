@@ -34,7 +34,7 @@ Now, transmit ultrasonic audio by playing a trigger from the `SampleTones` direc
 
 (4) To customize the ultrasonic trigger response, simply modify the following callback within  `MainActivity.java`:
 
-```
+```java
 private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInterface {
         private final Gson mGson = new Gson();
 
@@ -57,20 +57,20 @@ private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInter
 
 2. Setup the engine using your API key:
 
-```
+```java
 CUEEngine.getInstance().setupWithAPIKey(<context>, <apiKey>);
 ```
 
 You can start and stop listening with the methods:
 
-```
+```java
 CUEEngine.getInstance().startListening();
 CUEEngine.getInstance().stopListening();
 ```
 
 3. To decode data from the engine, set the engine's `ReceiverCallback`. This is the block of code that will execute each time an ultrasonic signal is detected. An example is:
 
-```
+```java
 private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInterface {
         private final Gson mGson = new Gson();
 
