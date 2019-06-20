@@ -1,3 +1,5 @@
+mbedtls -> https://github.com/ARMmbed/mbedtls
+----------------
 Copyright (C) 2006-2018, ARM Limited, All Rights Reserved
 SPDX-License-Identifier: Apache-2.0
 
@@ -15,6 +17,9 @@ limitations under the License.
 
 -------------------------------------------------------------------------------
 
+
+http-parser -> https://github.com/nodejs/http-parser
+----------------
 Copyright Joyent, Inc. and other Node contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,6 +42,9 @@ IN THE SOFTWARE.
 
 -------------------------------------------------------------------------------
 
+
+json -> https://github.com/nlohmann/json
+----------------
 Copyright (c) 2013-2018 Niels Lohmann
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -59,6 +67,9 @@ SOFTWARE.
 
 -------------------------------------------------------------------------------
 
+
+kissfft -> https://github.com/mborgerding/kissfft
+----------------
 Copyright (c) 2003-2010 Mark Borgerding . All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -88,6 +99,9 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -------------------------------------------------------------------------------
 
+
+libsamplerate -> https://github.com/erikd/libsamplerate
+----------------
 Copyright (c) 2012-2016, Erik de Castro Lopo <erikd@mega-nerd.com>
 All rights reserved.
 

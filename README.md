@@ -71,3 +71,7 @@ Please only use the included API Key for applications in development. The public
 
 ## Technical Details
 [Engine Callback Structure](./doc/CUEEngine_JSON_Structure.md) 
+
+### Note
+
+For testing the demo projects, since CUE is an ultrasonic communications platform, it is best to using two mobile devices (speaker of `device one` --> mic of `device two`) although you can technically test one one device (speaker of `device one` --> mic of `device one`). 

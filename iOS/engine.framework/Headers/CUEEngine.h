@@ -17,6 +17,8 @@ typedef void(^ReceiverCallback)( NSString* json );
 
 + (id) sharedInstance;
 
+- (void) didEnterForeground;
+
 // you can set the tone callback at any moment in the life-cycle of the object
 - (void) setReceiverCallback: (ReceiverCallback) blk;
 
@@ -41,7 +43,10 @@ typedef void(^ReceiverCallback)( NSString* json );
 
 //- (void) setConfig: (NSString *) config;
 
-- (void) transmitMessage: (NSString *) message;
+- (void) queueLive:    (NSString *) live;
+- (void) queueTrigger: (NSString *) trigger;
+- (void) queueData:    (NSString *) data;
+- (void) queueMessage: (NSString *) message;
 
 - (NSString*) getEngineDeviceId;
 
