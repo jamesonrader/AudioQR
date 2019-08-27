@@ -44,5 +44,4 @@ dependencies {
 
     implementation (name: 'engine', ext: 'aar')
     //implementation (name: 'engine', ext: 'aar')
-    implementation 'com.google.code.gson:gson:2.8.5'
 }

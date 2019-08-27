@@ -4,6 +4,7 @@
     <string name="menu_start_listening">Start listening</string>
     <string name="menu_stop_listening">Stop listening</string>
     <string name="output_mode_text">Output ALL data</string>
+    <string name="output_hint_text">Ultrasonic Payload</string>
 
     <string name="notification_channel_id" translatable="false">triggers</string>
     <string name="notification_channel_name">Triggers</string>
@@ -21,7 +22,6 @@
     <string name="mode_trigger">Trigger</string>
     <string name="mode_live">Live</string>
     <string name="mode_ascii">Ascii</string>
-    <string name="mode_raw">Raw</string>
 
     <string-array name="message_errors">
         <item>@string/message_error_trigger</item>
@@ -34,7 +34,6 @@
         <item>@string/mode_trigger</item>
         <item>@string/mode_live</item>
         <item>@string/mode_ascii</item>
-        <item>@string/mode_raw</item>
     </string-array>
 
     <string-array name="message_hints">

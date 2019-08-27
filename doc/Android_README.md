@@ -1,23 +1,5 @@
 # CUE Engine -- Android
 
-## Accessing CUEEngine
-
-1. Add Maven artifactory environment variables to your project's `local.properties` file:
-
-```
-com.cueaudio.maven.url=https://cueaudio.jfrog.io/cueaudio
-com.cueaudio.maven.repokey=libs-release-local
-com.cueaudio.maven.bucket=https://cueaudio.jfrog.io/cueaudio/libs-release-local
-com.cueaudio.maven.username=<username>
-com.cueaudio.maven.password=<password>
-```
-
-2. Import CUEEngine into your project by adding the following to your app's `build.gradle` file:
-
-```
-implementation "com.cueaudio:engine:1.+"
-```
-
 ## Using the Demo Project
 
 To run CUE Audio's ultrasonic engine on Android, simply follow these steps:
@@ -35,20 +17,37 @@ Now, transmit ultrasonic audio by playing a trigger from the `SampleTones` direc
 (4) To customize the ultrasonic trigger response, simply modify the following callback within  `MainActivity.java`:
 
 ```java
-private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInterface {
-        private final Gson mGson = new Gson();
-
+private class OutputListener implements CUEReceiverCallbackInterface {
         @Override
-        public void run(String symbolsJson) {
-            try {
-                JSONObject obj = new JSONObject(symbolsJson);
-                String triggerId = obj.getString("winner-indices");
-                Log.i(TAG, "Trigger Detected with SymbolString: " + triggerId);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        public void run(@NonNull String json) {
+            final CUETrigger model = CUETrigger.parse(json);
+            // Use payload
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Modify UI
+                }
+            });
         }
     }
+```
+
+## Accessing CUEEngine with Custom API Key
+
+1. Add Maven artifactory environment variables to your project's `local.properties` file:
+
+```
+com.cueaudio.maven.url=https://cueaudio.jfrog.io/cueaudio
+com.cueaudio.maven.repokey=libs-release-local
+com.cueaudio.maven.bucket=https://cueaudio.jfrog.io/cueaudio/libs-release-local
+com.cueaudio.maven.username=<username>
+com.cueaudio.maven.password=<password>
+```
+
+2. Import CUEEngine into your project by adding the following to your app's `build.gradle` file:
+
+```
+implementation "com.cueaudio:engine:1.+"
 ```
 
 ## Custom Implementation

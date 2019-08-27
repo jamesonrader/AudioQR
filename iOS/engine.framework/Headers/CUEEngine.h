@@ -12,6 +12,14 @@
 
 @interface CUEEngine : NSObject
 
+typedef NS_ENUM(NSInteger, CUEEngineValidationResult) {
+    SUCCESS                        =  0,
+    ERR_NUMBER_OF_SYMBOLS_MISMATCH = -1,
+    ERR_NUMBER_OF_SYMBOLS_EXCEEDED = -2,
+    ERR_SYMBOL_NOT_A_NUMBER        = -3,
+    ERR_INDEX_VALUE_EXCEEDED       = -4,
+};
+
 typedef void(^ReceiverCallback)( NSString* json );
 
 
@@ -35,6 +43,10 @@ typedef void(^ReceiverCallback)( NSString* json );
 // this will trigger an assertion failure if setup didn't complete
 - (void) startListening;
 
+- (void) feed:(float *) bufOfFloats
+   withNSamps:(int) nSamps
+ andWithSRate:(double) sRate;
+
 - (void) stopListening;
 
 - (BOOL) isListening;
@@ -43,10 +55,10 @@ typedef void(^ReceiverCallback)( NSString* json );
 
 //- (void) setConfig: (NSString *) config;
 
-- (void) queueLive:    (NSString *) live;
-- (void) queueTrigger: (NSString *) trigger;
-- (void) queueData:    (NSString *) data;
-- (void) queueMessage: (NSString *) message;
+- (CUEEngineValidationResult) queueLive:    (NSString *) live;
+- (CUEEngineValidationResult) queueTrigger: (NSString *) trigger;
+- (CUEEngineValidationResult) queueData:    (NSString *) data;
+- (CUEEngineValidationResult) queueMessage: (NSString *) message;
 
 - (NSString*) getEngineDeviceId;
 

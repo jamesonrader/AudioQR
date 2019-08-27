@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,6 +17,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
@@ -37,7 +39,7 @@ import android.widget.TextView;
 
 import com.cueaudio.engine.CUEEngine;
 import com.cueaudio.engine.CUEReceiverCallbackInterface;
-import com.google.gson.Gson;
+import com.cueaudio.engine.CUETrigger;
 
 import java.util.regex.Pattern;
 
@@ -45,15 +47,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "AndroidConsumer";
 
     private static final int REQUEST_RECORD_AUDIO = 13;
-    private static final String API_KEY = "H7v7NMMNh6im735w331iLHtqnduxGCTL";
+    private static final String API_KEY = "test_api_key";
     private static final int NOTIFICATION_ID = 1;
 
-    private static final int MODE_TRIGGER = 0;
-    private static final int MODE_LIVE = 1;
-    private static final int MODE_ASCII = 2;
-    private static final int MODE_RAW = 3;
-
     private TextView outputView;
+    private View clearOutput;
     private Switch outputMode;
     private View sendButton;
     private Spinner spinner;
@@ -62,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isShown = false;
 
-    /**
-     * Used to parse engine callback.
-     */
-    private final Gson gson = new Gson();
     /**
      * Used to validate the input.
      */
@@ -86,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.send);
         outputView = findViewById(R.id.outputView);
         outputMode = findViewById(R.id.output_mode);
+        clearOutput = findViewById(R.id.clear_output);
 
         hints = getResources().getStringArray(R.array.message_hints);
         regex = getResources().getStringArray(R.array.message_regex);
@@ -135,6 +130,14 @@ public class MainActivity extends AppCompatActivity {
                 queueInput(input, mode);
             }
         });
+
+        clearOutput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                outputView.setText(null);
+                clearOutput.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -150,24 +153,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectMode(int mode) {
-        hideKeyboardFrom(messageInput);
+        refreshKeyboard(messageInput);
 
         messageInput.setHint(hints[mode]);
         messageLayout.setHint(null);
         inputMatcher = Pattern.compile(regex[mode]);
         switch (mode) {
-            case MODE_TRIGGER:
-            case MODE_LIVE:
-            case MODE_RAW:
+            case CUETrigger.MODE_TRIGGER:
+            case CUETrigger.MODE_LIVE:
                 messageInput.setInputType(InputType.TYPE_CLASS_NUMBER);
                 messageInput.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
                 break;
-            case MODE_ASCII:
+            case CUETrigger.MODE_ASCII:
                 messageInput.setInputType(InputType.TYPE_CLASS_TEXT);
                 messageInput.setKeyListener(TextKeyListener.getInstance());
                 break;
         }
 
+        //noinspection ConstantConditions
         validateInput(messageInput.getText().toString());
     }
 
@@ -185,18 +188,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void queueInput(@NonNull String input, int mode) {
+        int result;
+
         switch (mode) {
-            case MODE_TRIGGER:
+            case CUETrigger.MODE_TRIGGER:
                 CUEEngine.getInstance().queueTrigger(input);
                 break;
-            case MODE_LIVE:
+   
+            case CUETrigger.MODE_LIVE:
                 CUEEngine.getInstance().queueLive(input);
                 break;
-            case MODE_ASCII:
-                CUEEngine.getInstance().queueMessage(input);
-                break;
-            case MODE_RAW:
-                CUEEngine.getInstance().queueData(input);
+
+            case CUETrigger.MODE_ASCII:
+                result = CUEEngine.getInstance().queueMessage(input);
+                ///!!! should be fixed some how (but how?)
+                if (result < 0) {
+                    messageLayout.setError("Ascii stream can't contain more then 10 symbols");
+                }
                 break;
         }
     }
@@ -208,14 +216,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        final boolean listening = CUEEngine.getInstance().isListening();
+
+        final Drawable startIcon = menu.findItem(R.id.menu_start).getIcon();
+        final Drawable stopIcon = menu.findItem(R.id.menu_stop).getIcon();
+        if (listening) {
+            DrawableCompat.setTint(startIcon, getResources().getColor(R.color.menu_active));
+            DrawableCompat.setTint(stopIcon, getResources().getColor(R.color.menu_inactive));
+        } else {
+            DrawableCompat.setTint(startIcon, getResources().getColor(R.color.menu_inactive));
+            DrawableCompat.setTint(stopIcon, getResources().getColor(R.color.menu_active));
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
         switch (id) {
             case R.id.menu_start:
-                CUEEngine.getInstance().startListening();
+                enableListening(true);
                 return true;
             case R.id.menu_stop:
-                CUEEngine.getInstance().stopListening();
+                enableListening(false);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -246,28 +270,17 @@ public class MainActivity extends AppCompatActivity {
         CUEEngine.getInstance().setupWithAPIKey(this, API_KEY);
 
         CUEEngine.getInstance().setReceiverCallback(new OutputListener());
-        CUEEngine.getInstance().startListening();
+        enableListening(true);
 
         final String config = CUEEngine.getInstance().getConfig();
         Log.v(TAG, config);
 
-        CUEEngine.getInstance().runSendingThread();
-
-        /*
-        // Transmitter test
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                CUEEngine.getInstance().queueTrigger("212.68.181");
-//                CUEEngine.getInstance().queueData("131.54.32.43.221");
-//            }
-//        }, 5000);
-        */
+        CUEEngine.getInstance().setTransmittingEnabled(true);
     }
 
     private void onTriggerHeard(CUETrigger model) {
         if (!isShown) {
-            showNotification(model.getIndices());
+            showNotification(model.getRawIndices());
         }
 
         if (outputMode.isChecked()) {
@@ -277,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
         }
         outputView.append("\n");
         outputView.append("\n");
+        clearOutput.setVisibility(View.VISIBLE);
 
         // scroll to end
         // https://stackoverflow.com/a/43290961
@@ -289,14 +303,12 @@ public class MainActivity extends AppCompatActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         final String channelId = getString(R.string.notification_channel_id);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.notification_channel_name);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            final CharSequence name = getString(R.string.notification_channel_name);
             NotificationChannel channel = new NotificationChannel(
                     channelId,
                     name,
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-
             //noinspection ConstantConditions
             notificationManager.createNotificationChannel(channel);
         }
@@ -319,29 +331,27 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    /**
-     * Used to parse engine callback json.
-     * @param json JSON string to be parsed
-     * @return callback model
-     */
-    private CUETrigger parse(@NonNull String json) {
-        final long initTime = System.currentTimeMillis();
-        final CUETrigger model = gson.fromJson(json, CUETrigger.class);
-        final long parsingDelay = System.currentTimeMillis() - initTime;
-        return model.withParseLatency(parsingDelay);
+    private void enableListening(boolean enable) {
+        if (enable) {
+            CUEEngine.getInstance().startListening();
+        } else {
+            CUEEngine.getInstance().stopListening();
+        }
+        supportInvalidateOptionsMenu();
     }
 
-    private static void hideKeyboardFrom(@NonNull View view) {
+    private static void refreshKeyboard(@NonNull View view) {
         final InputMethodManager imm =
                 (InputMethodManager) view.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         //noinspection ConstantConditions
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        imm.showSoftInput(view, 0);
     }
 
     private class OutputListener implements CUEReceiverCallbackInterface {
         @Override
-        public void run(String json) {
-            final CUETrigger model = parse(json);
+        public void run(@NonNull String json) {
+            final CUETrigger model = CUETrigger.parse(json);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

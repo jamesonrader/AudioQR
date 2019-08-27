@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/message_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/output_mode"
         android:orientation="horizontal">
 
         <Spinner
@@ -44,19 +50,39 @@
 
     <Switch
         android:id="@+id/output_mode"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:checked="false"
         android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/message_container"
+        app:layout_constraintBottom_toTopOf="@+id/outputView"
         android:text="@string/output_mode_text"/>
 
     <TextView android:id="@+id/outputView"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@android:drawable/editbox_background"
         android:layout_marginTop="8sp"
-        android:hint="Ultrasonic Payload"
+        android:hint="@string/output_hint_text"
+        app:layout_constraintTop_toBottomOf="@+id/output_mode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:scrollbars="vertical"
         android:textSize="15sp" />
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/clear_output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_clear"
+        android:padding="16dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintRight_toRightOf="@+id/outputView"
+        app:layout_constraintBottom_toBottomOf="@+id/outputView"
+        android:background="?selectableItemBackground"/>
+
+</android.support.constraint.ConstraintLayout>

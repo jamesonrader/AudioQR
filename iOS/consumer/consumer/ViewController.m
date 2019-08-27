@@ -10,14 +10,7 @@
 #import <UserNotifications/UserNotifications.h>
 
 #import <engine/CUEEngine.h>
-
-typedef NS_ENUM(NSInteger, CUEEngineMode) {
-    CUEEngineModeTrigger = 0,
-    CUEEngineModeLive = 1,
-    CUEEngineModeAscii = 2,
-    CUEEngineModeRaw = 3,
-};
-
+#import <engine/CUETrigger.h>
 
 @interface ViewController() <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *outputView;
@@ -27,8 +20,9 @@ typedef NS_ENUM(NSInteger, CUEEngineMode) {
 @property (weak, nonatomic) IBOutlet UISwitch *fullOutputSwitch;
 @property CUEEngineMode selectedMode;
 @property NSArray *modes;
+@property UIBarButtonItem *playButton;
+@property UIBarButtonItem *pauseButton;
 
-//@property (weak, nonatomic) IBOutlet UITextView *outputView;
 @end
 
 @implementation ViewController
@@ -38,25 +32,20 @@ typedef NS_ENUM(NSInteger, CUEEngineMode) {
     [super viewDidLoad];
     
     [self setupKeyboardGesture];
-    //[self setupViewKeyboardResponse];
     [self setupModesArray];
     [self setupTextEntryField];
     [self setupPickerView];
+    [self setupPlayPauseButtons];
     [self registerForLocalNotifications];
-    
-    //disable send button until textEntryField has text
-    self.sendButton.enabled = false;
-    
+    [self setupCUEEngineCallback];
+}
+
+- (void) setupCUEEngineCallback {
     [CUEEngine.sharedInstance setReceiverCallback:
      ^void( NSString* jsonString )
      {
          NSLog(@"CUEEngine viewDidLoad got-trigger-callback with JSON:\n%@", jsonString);
-         
-         /* * * * * * * * *
-          * string -> JSON
-          * * * * * * * * */
-         NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-         NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+         CUETrigger *trigger = [[CUETrigger alloc] initWithJsonString:jsonString];
          
          /* * * * * * * * * * *
           * display output
@@ -70,26 +59,48 @@ typedef NS_ENUM(NSInteger, CUEEngineMode) {
              
              NSString *outputStr;
              if (self.fullOutputSwitch.isOn) {
-                 outputStr = [self formatFullData:jsonObject];
+                 outputStr = [CUETrigger formatFullData:trigger];
              } else {
-                 outputStr = [self formatPartialData:jsonObject];
+                 outputStr = [CUETrigger formatPartialData:trigger];
              }
              
              // If running in background, check to send notification
-             [self sendNotificationInBackground:[self getTriggerIndices:jsonObject] andMode:[self getTriggerMode:jsonObject]];
+             [self sendNotificationInBackground:trigger.rawIndices andMode:trigger.mode];
              
-             //self.outputLabel.text = symbolString;
-             self.outputView.text = [NSString stringWithFormat:@"%@%@", self.outputView.text, outputStr];
+             self.outputView.text = [self.outputView.text stringByAppendingString:outputStr];
+             
+             /* Scroll to bottom */
+             NSRange bottomLine = NSMakeRange(self.outputView.text.length - 1, 1);
+             [self.outputView scrollRangeToVisible:bottomLine];
          } );
          
      }];
 }
 
+- (void) setupPlayPauseButtons {
+    //disable send button until textEntryField has text
+    self.sendButton.enabled = false;
+    
+    self.playButton = [[UIBarButtonItem alloc]
+                       initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
+                       target:self action:@selector(playButtonTapped)];
+    
+    self.pauseButton = [[UIBarButtonItem alloc]
+                        initWithBarButtonSystemItem:UIBarButtonSystemItemPause
+                        target:self action:@selector(pauseButtonTapped)];
+    
+    
+    self.navigationItem.rightBarButtonItem = self.pauseButton;
+}
+
 - (void) setupModesArray {
-    self.modes = @[[NSNumber numberWithInteger:CUEEngineModeTrigger], [NSNumber numberWithInteger:CUEEngineModeLive],[NSNumber numberWithInteger:CUEEngineModeAscii],[NSNumber numberWithInteger:CUEEngineModeRaw]];
+    self.modes = @[[NSNumber numberWithInteger:CUEEngineModeTrigger],
+                   [NSNumber numberWithInteger:CUEEngineModeLive],
+                   [NSNumber numberWithInteger:CUEEngineModeAscii]];
 }
 
 #pragma mark Notifications
+
 - (void) registerForLocalNotifications {
     [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNNotificationPresentationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted) {
@@ -130,78 +141,82 @@ typedef NS_ENUM(NSInteger, CUEEngineMode) {
     [self.view addGestureRecognizer:dismissGesture];
 }
 
-- (void) setupViewKeyboardResponse {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
-}
-
-- (void) keyboardWillShow {
-    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - 300, self.view.frame.size.width, self.view.frame.size.height);
-}
-
-- (void) keyboardWillHide {
-    self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 300, self.view.frame.size.width, self.view.frame.size.height);
-}
-
 - (void) dismissKeyboard {
     [self.view endEditing:true];
 }
 
+- (IBAction)clearOutput:(id)sender {
+    self.outputView.text = @"";
+}
+
 # pragma mark Buttons
 
+- (void)playButtonTapped {
+    [CUEEngine.sharedInstance startListening];
+    self.navigationItem.rightBarButtonItem = self.pauseButton;
+}
+
+- (void)pauseButtonTapped {
+    [CUEEngine.sharedInstance stopListening];
+    self.navigationItem.rightBarButtonItem = self.playButton;
+}
+
+# pragma mark Transmit
+
 - (IBAction)transmit:(id)sender {
+    int validationResult = 0;
+
+    [[self view] endEditing:YES];
+
     switch (self.selectedMode) {
         case CUEEngineModeTrigger: {
-            // Check to see if input is valid "trigger" format of "[0-461].[0-461].[0-461]"
-            NSError *error = NULL;
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^(([0-9]|[1-8][0-9]|9[0-9]|[1-3][0-9]{2}|4[0-5][0-9]|46[01]).([0-9]|[1-8][0-9]|9[0-9]|[1-3][0-9]{2}|4[0-5][0-9]|46[01]).([0-9]|[1-8][0-9]|9[0-9]|[1-3][0-9]{2}|4[0-5][0-9]|46[01]))$"
-                                          options:NSRegularExpressionCaseInsensitive
-                                          error:&error];
-            
-            if ([regex numberOfMatchesInString:self.textEntryField.text options:0 range:NSMakeRange(0, [self.textEntryField.text length])]) {
-                //valid Trigger format
-                [CUEEngine.sharedInstance queueTrigger:self.textEntryField.text];
-            } else {
+            NSString* decimalPoint = NSLocale.currentLocale.decimalSeparator;
+            NSString* triggerStr = [self.textEntryField.text stringByReplacingOccurrencesOfString:decimalPoint withString:@"."];
+
+            validationResult = [CUEEngine.sharedInstance queueTrigger:triggerStr];
+            if(validationResult < 0) {
                 //invalid format
+                NSString* alertMsg = [
+                    NSString stringWithFormat:@"Triggers must be of the format [0-461]%@[0-461]%@[0-461]",
+                    decimalPoint, decimalPoint ];
                 NSLog(@"Invalid Format");
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Format" message:@"Triggers must be of the format [0-461].[0-461].[0-461]" preferredStyle:UIAlertControllerStyleAlert];
+
+                UIAlertController *alert = [ UIAlertController
+                    alertControllerWithTitle:@"Invalid Format" message:alertMsg
+                    preferredStyle:UIAlertControllerStyleAlert ];
+
                 [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:NULL]];
                 [self presentViewController:alert animated:YES completion:NULL];
             }
+
             break;
         }
         case CUEEngineModeLive: {
-            // !!! Engine currently does not have Live output method
-            // Check to see if input is valid "live" format of "[0-461]"
-            NSError *error = NULL;
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^([0-9]|[1-8][0-9]|9[0-9]|[1-3][0-9]{2}|4[0-5][0-9]|46[01])$" options:NSRegularExpressionCaseInsensitive error:&error];
-            
-            if ([regex numberOfMatchesInString:self.textEntryField.text options:0 range:NSMakeRange(0, [self.textEntryField.text length])]) {
-                //valid Trigger format
-                [CUEEngine.sharedInstance queueTrigger:self.textEntryField.text];
-            } else {
+            validationResult = [CUEEngine.sharedInstance queueLive:self.textEntryField.text];
+            if(validationResult < 0) {
                 //invalid format
                 NSLog(@"Invalid Format");
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Format" message:@"Live Triggers must be of the format [0-461]" preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:NULL]];
                 [self presentViewController:alert animated:YES completion:NULL];
             }
-            //[CUEEngine.sharedInstance queue];
+
             break;
         }
-        case CUEEngineModeAscii:
-            [CUEEngine.sharedInstance queueMessage:self.textEntryField.text];
+        case CUEEngineModeAscii: {
+            validationResult = [CUEEngine.sharedInstance queueMessage:self.textEntryField.text];
+            if(validationResult < 0) {
+                //invalid format
+                NSLog(@"Invalid Format");
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Format" message:@"Ascii stream can not contain more then 10 symbols" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:NULL]];
+                [self presentViewController:alert animated:YES completion:NULL];
+            }
             break;
-        case CUEEngineModeRaw:
-            [CUEEngine.sharedInstance queueData:self.textEntryField.text];
-            break;
+        }
         default:
             break;
     }
-}
-
-- (IBAction)clearOutput:(id)sender {
-    self.outputView.text = @"";
 }
 
 # pragma mark UIPickerView
@@ -212,7 +227,7 @@ typedef NS_ENUM(NSInteger, CUEEngineMode) {
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 4;
+    return [self.modes count];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -223,42 +238,41 @@ typedef NS_ENUM(NSInteger, CUEEngineMode) {
     switch (row) {
         case 0:
             return @"Trigger";
-            break;
         case 1:
             return @"Live";
-            break;
-        case 2:
-            return @"Ascii";
-            break;
         default:
-            return @"Raw";
-            break;
+            return @"Ascii";
     }
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.selectedMode = [[self.modes objectAtIndex:row] integerValue];
-    
     switch (self.selectedMode) {
-        case CUEEngineModeTrigger:
-            self.textEntryField.placeholder = @"1.2.34";
-            self.textEntryField.keyboardType = UIKeyboardTypeDecimalPad;
+        case CUEEngineModeTrigger:{
+            NSString* decimalPoint = NSLocale.currentLocale.decimalSeparator;
+            self.textEntryField.placeholder = [
+                NSString stringWithFormat:@"1%@2%@34",
+                decimalPoint, decimalPoint ];
+            [self setKeyboardType:UIKeyboardTypeDecimalPad];
             break;
+        }
         case CUEEngineModeLive:
             self.textEntryField.placeholder = @"34";
-            self.textEntryField.keyboardType = UIKeyboardTypeNumberPad;
+            [self setKeyboardType:UIKeyboardTypeNumberPad];
             break;
         case CUEEngineModeAscii:
             self.textEntryField.placeholder = @"Hello World";
-            self.textEntryField.keyboardType = UIKeyboardTypeDefault;
-            break;
-        case CUEEngineModeRaw:
-            self.textEntryField.placeholder = @"1.23.45.310.418";
-            self.textEntryField.keyboardType = UIKeyboardTypeDefault;
+            [self setKeyboardType:UIKeyboardTypeDefault];
             break;
         default:
             break;
     }
+}
+
+- (void)setKeyboardType:(UIKeyboardType)kbType
+{
+    self.textEntryField.keyboardType = kbType;
+    [self.textEntryField reloadInputViews];
 }
 
 # pragma mark UITextField
@@ -273,98 +287,10 @@ typedef NS_ENUM(NSInteger, CUEEngineMode) {
 
 - (void) setupTextEntryField {
     self.textEntryField.delegate = self;
-    self.textEntryField.placeholder = @"1.2.34";
+    NSString* decimalPoint = NSLocale.currentLocale.decimalSeparator;
+    self.textEntryField.placeholder = [
+        NSString stringWithFormat:@"1%@2%@34", decimalPoint, decimalPoint ];
     self.textEntryField.keyboardType = UIKeyboardTypeDecimalPad;
-}
-
-#pragma mark Output
-
-- (NSString *) formatFullData: (NSDictionary *) jsonObject {
-    NSMutableString* outputStr = [NSMutableString new];
-    
-    [outputStr setString:@"CUESymbols {\n"];
-    
-    // mode
-    NSString* mode = [jsonObject objectForKey:@"mode"];
-    [outputStr appendFormat:@"  mode: %@\n", mode];
-    
-    // indices
-    [outputStr appendFormat:@"  indices: %@\n",
-     (NSString*)[jsonObject objectForKey:@"raw-indices"]];
-    
-    // latency
-    NSNumber* latency = [jsonObject objectForKey:@"latency_ms"];
-    [outputStr appendFormat:@"  latency: %.2f\n",
-     [latency doubleValue]];
-    
-    // noise
-    NSNumber* noise = [jsonObject objectForKey:@"noise"];
-    [outputStr appendFormat:@"  noise: %.2f\n",
-     [noise doubleValue]];
-    
-    // power
-    NSNumber* power = [jsonObject objectForKey:@"power"];
-    [outputStr appendFormat:@"  power: %.2f\n",
-     [power doubleValue]];
-    
-    NSArray* rawCalib = [jsonObject objectForKey:@"raw-calib"];
-    [ outputStr appendString:@"  rawCalib: [\n" ];
-    for (int i = 0; i < [rawCalib count]; i++) {
-        [outputStr appendFormat:@"    %@\n", rawCalib[i] ];
-    }
-    [outputStr appendString:@"  ]\n"];
-    
-    NSArray* rawTrigger = [jsonObject objectForKey:@"raw-trigger"];
-    [ outputStr appendString:@"  rawTrigger: [\n" ];
-    for (int i = 0; i < [rawTrigger count]; i++) {
-        [outputStr appendString:@"    [\n"];
-        for(int j = 0; j < [rawTrigger[i] count]; j++)
-            [outputStr appendFormat:@"      %@\n", rawTrigger[i][j] ];
-        
-        [outputStr appendString:@"    ]\n"];
-    }
-    [outputStr appendString:@"  ]\n"];
-    
-    // winnerIndices
-    NSString* winnerIndices = [jsonObject objectForKey:@"winner-indices"];
-    [outputStr appendFormat:@"  winnerIndices: %@\n", winnerIndices];
-    
-    [outputStr appendString:@"}\n\n"];
-    
-    return outputStr;
-}
-
-- (NSString *) formatPartialData: (NSDictionary *) jsonObject {
-    NSMutableString* outputStr = [NSMutableString new];
-    
-    [outputStr setString:@"CUESymbols {\n"];
-    
-    // mode
-    NSString* mode = [jsonObject objectForKey:@"mode"];
-    [outputStr appendFormat:@"  mode: %@\n", mode];
-    
-    // winnerIndices
-    NSString* winnerIndices = [jsonObject objectForKey:@"winner-indices"];
-    [outputStr appendFormat:@"  winnerIndices: %@\n", winnerIndices];
-    
-    [outputStr appendString:@"}\n\n"];
-    
-    return outputStr;
-}
-
-- (CUEEngineMode) getTriggerMode: (NSDictionary *) jsonObject {
-    NSString* mode = [jsonObject objectForKey:@"mode"];
-    if ([mode.lowercaseString isEqualToString:@"trigger"]) {
-        return CUEEngineModeTrigger;
-    } else if ([mode.lowercaseString isEqualToString:@"live"]) {
-        return CUEEngineModeLive;
-    } else if ([mode.lowercaseString isEqualToString:@"raw"]) {
-        return CUEEngineModeRaw;
-    } else return CUEEngineModeAscii;
-}
-
-- (NSString *) getTriggerIndices: (NSDictionary *) jsonObject {
-    return [jsonObject objectForKey:@"winner-indices"];
 }
 
 @end

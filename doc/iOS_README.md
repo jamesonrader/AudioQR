@@ -1,6 +1,29 @@
 # CUE Engine - iOS
 
-## Accessing CUEEngine
+## Using the Demo Project
+
+To run CUE Audio's ultrasonic engine on iOS, simply follow these steps:
+
+(1) Go into `iOS/consumer` and open `consumer.xcodeproj` in Xcode
+
+(2) At the top of `AppDelegate.m`, insert your API Key into the following:
+
+`#define API_KEY @"yourAPIKey"`
+
+(3) Run the project. Transmit ultrasonic audio by playing a trigger from the `SampleTones` directory. Upon registering the tone, the device display the binary signal received.
+
+(4) To customize the ultrasonic trigger response, simply modify the following callback within your `ViewController.m` file:
+
+```objective-c
+[CUEEngine.sharedInstance setReceiverCallback:
+        ^void( NSString* jsonString )
+        {
+            //handle engine JSON here
+        }
+     ];
+```
+
+## Accessing CUEEngine with Custom API Key
 
 1. Make sure you have `CocoaPods` and the `CocoaPods Artifactory` plugin installed. You can do so with the following commands using Homebrew:
 
@@ -48,29 +71,6 @@ target 'MyProj' do
   pod "engine", '1.11.1-Debug'
 
 end
-```
-
-## Using the Demo Project
-
-To run CUE Audio's ultrasonic engine on iOS, simply follow these steps:
-
-(1) Go into `iOS/consumer` and open `consumer.xcodeproj` in Xcode
-
-(2) At the top of `AppDelegate.m`, insert your API Key into the following:
-
-`#define API_KEY @"yourAPIKey"`
-
-(3) Run the project. Transmit ultrasonic audio by playing a trigger from the `SampleTones` directory. Upon registering the tone, the device display the binary signal received.
-
-(4) To customize the ultrasonic trigger response, simply modify the following callback within your `ViewController.m` file:
-
-```objective-c
-[CUEEngine.sharedInstance setReceiverCallback:
-        ^void( NSString* jsonString )
-        {
-            //handle engine JSON here
-        }
-     ];
 ```
 
 ## Custom Implementation 
