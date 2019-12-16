@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "AndroidConsumer";
 
     private static final int REQUEST_RECORD_AUDIO = 13;
-    private static final String API_KEY = "test_api_key";
+    private static final String API_KEY = "H7v7NMMNh6im735w331iLHtqnduxGCTL";
     private static final int NOTIFICATION_ID = 1;
 
     private TextView outputView;
