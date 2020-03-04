@@ -42,6 +42,7 @@
 - (void) setupEngine
 {
     [CUEEngine.sharedInstance setupWithAPIKey:API_KEY];
+    [CUEEngine.sharedInstance setDefaultGeneration:2];
 }
 
 - (void) startListening {

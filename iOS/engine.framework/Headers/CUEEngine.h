@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, CUEEngineValidationResult) {
 };
 
 typedef void(^ReceiverCallback)( NSString* json );
+//typedef void(^OnGenerationChangeCallback)( NSInteger g );
 
 
 + (id) sharedInstance;
@@ -29,6 +30,7 @@ typedef void(^ReceiverCallback)( NSString* json );
 
 // you can set the tone callback at any moment in the life-cycle of the object
 - (void) setReceiverCallback: (ReceiverCallback) blk;
+//- (void) setOnGenerationChangeCallback: (OnGenerationChangeCallback) blk;
 
 // NOTE: If you don't have microphone permission before you setup,
 //         iOS will automatically request it.
@@ -55,12 +57,16 @@ typedef void(^ReceiverCallback)( NSString* json );
 
 //- (void) setConfig: (NSString *) config;
 
-- (CUEEngineValidationResult) queueLive:    (NSString *) live;
-- (CUEEngineValidationResult) queueTrigger: (NSString *) trigger;
-- (CUEEngineValidationResult) queueData:    (NSString *) data;
-- (CUEEngineValidationResult) queueMessage: (NSString *) message;
+- (CUEEngineValidationResult) queueLive:            (NSString *) live;
+- (CUEEngineValidationResult) queueTrigger:         (NSString *) trigger;
+- (CUEEngineValidationResult) queueTriggerAsNumber: (unsigned long) n;
+- (CUEEngineValidationResult) queueData:            (NSString *) data;
+- (CUEEngineValidationResult) queueMessage:         (NSString *) message;
 
 - (NSString*) getEngineDeviceId;
+//- (NSInteger) getEngineGeneration;
+
+- (void) setDefaultGeneration: (int) g;
 
 //- (void) setTriggers: (NSArray<NSString*>*) triggerSet;
 

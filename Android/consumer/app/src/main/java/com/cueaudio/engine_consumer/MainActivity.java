@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "AndroidConsumer";
 
     private static final int REQUEST_RECORD_AUDIO = 13;
-    private static final String API_KEY = "H7v7NMMNh6im735w331iLHtqnduxGCTL";
+    private static final String API_KEY = "EH0GHbslb0pNWAxPf57qA6n23w4Zgu5U";
     private static final int NOTIFICATION_ID = 1;
 
     private TextView outputView;
@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private String[] hints;
     private String[] regex;
     private String[] errors;
+
+    private boolean restartListening = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                validateInput(s.toString());
+                if (s != null) {
+                    validateInput(s.toString());
+                }
             }
         });
 
@@ -127,7 +131,28 @@ public class MainActivity extends AppCompatActivity {
                 //noinspection ConstantConditions
                 final String input = messageInput.getText().toString();
                 final int mode = spinner.getSelectedItemPosition();
-                queueInput(input, mode);
+
+                boolean triggerAsNumber = false;
+                int realMode;
+                switch( mode ) {
+                    case 0:
+                        realMode = CUETrigger.MODE_TRIGGER;
+                        break;
+                    case 1:
+                        realMode = CUETrigger.MODE_TRIGGER;
+                        triggerAsNumber = true;
+                        break;
+                    case 2:
+                        realMode = CUETrigger.MODE_LIVE;
+                        break;
+                    default:
+                        realMode = CUETrigger.MODE_ASCII;
+                        break;
+
+                }
+
+                Log.v(TAG, String.format("triggerAsNumber %b", triggerAsNumber));
+                queueInput(input, realMode, triggerAsNumber);
             }
         });
 
@@ -144,10 +169,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         isShown = true;
+        if (restartListening) {
+            CUEEngine.getInstance().startListening();
+        }
     }
 
     @Override
     protected void onStop() {
+        restartListening = CUEEngine.getInstance().isListening();
+        CUEEngine.getInstance().stopListening();
         isShown = false;
         super.onStop();
     }
@@ -187,22 +217,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void queueInput(@NonNull String input, int mode) {
+    private void queueInput(@NonNull String input, int mode, boolean triggerAsNumber) {
         int result;
 
         switch (mode) {
             case CUETrigger.MODE_TRIGGER:
-                CUEEngine.getInstance().queueTrigger(input);
+                if(triggerAsNumber) {
+                    long number = Long.parseLong(input);
+                    result = CUEEngine.getInstance().queueTriggerAsNumber(number);
+                    if( result == -110 ) {
+                        messageLayout.setError(
+                            "Triggers as number sending is unsupported for engine generation 1" );
+                    } else if( result < 0 ) /* -120 */ {
+                        messageLayout.setError(
+                            "Triggers us number can not exceed 98611127" );
+                    }
+                } else {
+                    CUEEngine.getInstance().queueTrigger(input);
+                }
                 break;
    
             case CUETrigger.MODE_LIVE:
-                CUEEngine.getInstance().queueLive(input);
+                result = CUEEngine.getInstance().queueLive(input);
+                if ( result == -10 ) {
+                    messageLayout.setError(
+                        "Live triggers sending is unsupported for engine generation 2");
+                }
                 break;
 
             case CUETrigger.MODE_ASCII:
                 result = CUEEngine.getInstance().queueMessage(input);
-                ///!!! should be fixed some how (but how?)
-                if (result < 0) {
+                if ( result == -10 ) {
+                    messageLayout.setError(
+                        "Message sending is unsupported for engine generatin 2");
+                } else if (result < 0) {
+                    ///!!! should be fixed some how (but how?)
                     messageLayout.setError("Ascii stream can't contain more then 10 symbols");
                 }
                 break;
@@ -268,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         CUEEngine.getInstance().setupWithAPIKey(this, API_KEY);
+        CUEEngine.getInstance().setDefaultGeneration(2);
 
         CUEEngine.getInstance().setReceiverCallback(new OutputListener());
         enableListening(true);
@@ -291,6 +341,10 @@ public class MainActivity extends AppCompatActivity {
         outputView.append("\n");
         outputView.append("\n");
         clearOutput.setVisibility(View.VISIBLE);
+
+        long triggerNum = model.getTriggerAsNumber();
+        Log.i("triggerAsNumber: ", Long.toString(triggerNum));
+
 
         // scroll to end
         // https://stackoverflow.com/a/43290961

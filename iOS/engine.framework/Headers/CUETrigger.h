@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CUETrigger : NSObject
 
+@property int generation;
 @property CUEEngineMode mode;
 
 @property double latencyMs;
@@ -25,14 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property double power;
 
 @property NSString *rawIndices;
-@property NSArray<NSNumber *> *rawCalibrations;
-@property NSArray<NSArray<NSNumber *>*> *rawTrigger;
+@property (nullable) NSArray<NSNumber *> *rawCalibrations;
+@property (nullable) NSArray<NSArray<NSNumber *>*> *rawTrigger;
 
 @property NSString *winnerIndices;
+@property unsigned long triggerAsNumber;
 
 @property NSString *rawJsonString;
 
-@property NSString *message;
+@property (nullable) NSString *message;
 
 - (instancetype)initWithJsonString: (NSString *) jsonString;
 

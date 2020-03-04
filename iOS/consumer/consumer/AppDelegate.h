@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define API_KEY @"H7v7NMMNh6im735w331iLHtqnduxGCTL"
+#define API_KEY @"EH0GHbslb0pNWAxPf57qA6n23w4Zgu5U"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -1,4 +1,4 @@
-# Structure of CUEEngine got-message-callback JSON payload
+# Structure of CUETrigger
 
 ## Basic Terms
 
@@ -80,7 +80,8 @@ The symbols detected are always contained within the `raw-indices` parameter. An
         ]
     ],
     "winner-binary": "11111000000.00011111000.00000110111",
-    "winner-indices": "461.55.2"
+    "winner-indices": "461.55.2",
+    "trigger-as-number": 214377
 }
 ```
 
@@ -122,6 +123,24 @@ Each payload has a `"mode"` (`"trigger"`, `"live"` or  `"data"`).  Particular `"
 - `"raw-indices"`:
 
     The "symbol string" or "indices" of the detected trigger (e.g., `"1.2.3"`).
+    
+- `"trigger-as-number"`:
+
+	You can convert a `trigger` back and forth to an `integer` from `0` to `98611127`. Transmit an `integer` by calling:
+	
+	```objc
+	[CUEEngine.sharedInstance queueTriggerAsNumber:number];
+	```
+	
+	```java
+	CUEEngine.getInstance().queueTriggerAsNumber(number);
+	```
+	
+	Then, when a `trigger` is received, convert a `trigger` to an integer with the following:
+	
+	```objc
+	long triggerNum = [trigger triggerAsNumber];
+	```
 
 ### Advanced Parameters
 
