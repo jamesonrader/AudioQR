@@ -68,7 +68,7 @@ target 'MyProj' do
   # Pods for consumer
 
   project 'MyProj.xcodeproj'
-  pod "engine", '1.11.1-Debug'
+  pod "engine"
 
 end
 ```
