@@ -31,6 +31,9 @@ Unlike any competing data-over-audio solution, which work only in quiet environm
 ![Edmonton Oilers](https://d253ypm2x51cw3.cloudfront.net/jpegs/logos/cue-partner-oilers.jpg)
 ![Sherwin Williams](https://d253ypm2x51cw3.cloudfront.net/jpegs/logos/cue-partner-sherwinwilliams.jpg)
 
+# Technical Overview
+[See PDF here](./doc/cue-technical-overview.pdf)
+
 # Licensing
 
 Please only use the included API Key for applications in development. The public API Key included in this demo is liable to break at any time. Before pushing a product into production, please make sure you have your own API Key by contacting <hello+github@cueaudio.com>. Learn more at <https://cueaudio.com>.

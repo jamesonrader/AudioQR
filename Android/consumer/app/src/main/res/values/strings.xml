@@ -37,6 +37,8 @@
     <string-array name="message_modes">
         <item>@string/mode_trigger</item>
         <item>@string/mode_number</item>
+        <item>@string/mode_live</item>
+        <item>@string/mode_ascii</item>
     </string-array>
 
     <string-array name="message_hints">

@@ -40,6 +40,7 @@ import android.widget.TextView;
 import com.cueaudio.engine.CUEEngine;
 import com.cueaudio.engine.CUEReceiverCallbackInterface;
 import com.cueaudio.engine.CUETrigger;
+import com.cueaudio.engine.CUEEngineError;
 
 import java.util.regex.Pattern;
 
@@ -69,6 +70,31 @@ public class MainActivity extends AppCompatActivity {
     private String[] errors;
 
     private boolean restartListening = false;
+
+    private int getModeByPosition(int position) {
+        int realMode;
+        switch( position ) {
+            case 0:
+            case 1:
+                realMode = CUETrigger.MODE_TRIGGER;
+                break;
+            case 2:
+                realMode = CUETrigger.MODE_LIVE;
+                break;
+            default:
+                realMode = CUETrigger.MODE_ASCII;
+                break;
+        }
+
+        return realMode;
+    }
+
+    private boolean getTriggerAsNumberByPosition(int position) {
+        if( position == 1 )
+            return true;
+        else
+            return false;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null) {
+                if (s != null && s.toString().length() != 0 ) {
                     validateInput(s.toString());
                 }
             }
@@ -130,29 +156,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //noinspection ConstantConditions
                 final String input = messageInput.getText().toString();
-                final int mode = spinner.getSelectedItemPosition();
+                final int position = spinner.getSelectedItemPosition();
 
-                boolean triggerAsNumber = false;
-                int realMode;
-                switch( mode ) {
-                    case 0:
-                        realMode = CUETrigger.MODE_TRIGGER;
-                        break;
-                    case 1:
-                        realMode = CUETrigger.MODE_TRIGGER;
-                        triggerAsNumber = true;
-                        break;
-                    case 2:
-                        realMode = CUETrigger.MODE_LIVE;
-                        break;
-                    default:
-                        realMode = CUETrigger.MODE_ASCII;
-                        break;
-
-                }
+                int mode = getModeByPosition( position );
+                boolean triggerAsNumber = getTriggerAsNumberByPosition( position );
 
                 Log.v(TAG, String.format("triggerAsNumber %b", triggerAsNumber));
-                queueInput(input, realMode, triggerAsNumber);
+                queueInput(input, mode, triggerAsNumber);
             }
         });
 
@@ -182,12 +192,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void selectMode(int mode) {
+    private void selectMode(int position) {
         refreshKeyboard(messageInput);
 
-        messageInput.setHint(hints[mode]);
+        messageInput.setHint(hints[position]);
         messageLayout.setHint(null);
-        inputMatcher = Pattern.compile(regex[mode]);
+        inputMatcher = Pattern.compile(regex[position]);
+
+        int mode = getModeByPosition(position);
         switch (mode) {
             case CUETrigger.MODE_TRIGGER:
             case CUETrigger.MODE_LIVE:
@@ -208,10 +220,10 @@ public class MainActivity extends AppCompatActivity {
         final boolean matches = inputMatcher.matcher(input).matches();
         sendButton.setEnabled(matches);
         if (!matches) {
-            final int mode = spinner.getSelectedItemPosition();
+            final int position = spinner.getSelectedItemPosition();
             // HACK: to prevent error message to be cut https://stackoverflow.com/a/55468225/322955
             messageLayout.setError(null);
-            messageLayout.setError(errors[mode]);
+            messageLayout.setError(errors[position]);
         } else {
             messageLayout.setError(null);
         }
@@ -225,12 +237,15 @@ public class MainActivity extends AppCompatActivity {
                 if(triggerAsNumber) {
                     long number = Long.parseLong(input);
                     result = CUEEngine.getInstance().queueTriggerAsNumber(number);
-                    if( result == -110 ) {
+                    if( result == CUEEngineError.G1_TRIGGER_AS_NUMBER_UNSUPPORTED ) {
                         messageLayout.setError(
                             "Triggers as number sending is unsupported for engine generation 1" );
-                    } else if( result < 0 ) /* -120 */ {
+                    } else if( result == CUEEngineError.TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
                         messageLayout.setError(
                             "Triggers us number can not exceed 98611127" );
+                    } else if ( result < 0 ){
+                        messageLayout.setError(
+                                "Triggers us number sending: unknown error" );
                     }
                 } else {
                     CUEEngine.getInstance().queueTrigger(input);
@@ -239,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
    
             case CUETrigger.MODE_LIVE:
                 result = CUEEngine.getInstance().queueLive(input);
-                if ( result == -10 ) {
+                if ( result == CUEEngineError.G2_QUEUE_LIVE_UNSUPPORTED ) {
                     messageLayout.setError(
                         "Live triggers sending is unsupported for engine generation 2");
                 }
@@ -247,12 +262,13 @@ public class MainActivity extends AppCompatActivity {
 
             case CUETrigger.MODE_ASCII:
                 result = CUEEngine.getInstance().queueMessage(input);
-                if ( result == -10 ) {
-                    messageLayout.setError(
-                        "Message sending is unsupported for engine generatin 2");
-                } else if (result < 0) {
+                if ( result == CUEEngineError.G1_NUMBER_OF_SYMBOLS_EXCEEDED ) {
                     ///!!! should be fixed some how (but how?)
-                    messageLayout.setError("Ascii stream can't contain more then 10 symbols");
+                    messageLayout.setError("Ascii stream can't contain more then 10 symbols for G1");
+                } else if ( result == CUEEngineError.G2_QUEUE_MESSAGE_STRING_SIZE_IN_BYTES_EXCEEDED ) {
+                    messageLayout.setError("Test can't contain more then 512 bytes for G2");
+                } else if( result < 0 ) {
+                    messageLayout.setError("Queue message: unknown error");
                 }
                 break;
         }

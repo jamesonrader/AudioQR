@@ -111,3 +111,23 @@ You can start and stop listening with the methods:
 ```
 
 For details on the structure of the returned JSON, see [here](CUEEngine_JSON_Structure.md).
+
+6. To transmit an ultrasonic trigger from the engine, select from one of the following:
+
+Transmit as an integer between `0` and `98,611,127`:
+
+```objective-c
+result = [CUEEngine.sharedInstance queueTriggerAsNumber:number];
+if( result < 0 ) {
+    NSLog(@"Triggers us number can not exceed 98611127");
+}
+```
+
+Transmit as a "trigger" (format "X.X.X" where X is an integer from `0` - `461`):
+
+```objective-c
+result = [CUEEngine.sharedInstance queueTrigger:triggerStr];
+if( result < 0 ) {
+    // handle error
+}
+```

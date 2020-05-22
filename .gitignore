@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+#iOS
+xcshareddata/
+iOS/consumer/build.vars
+
+# xcode
+xcuserdata
+*.xcuserstate
+project.xcworkspace
+
+# Android
+Android/wrapper/.cxx/
+.gradle/
+.idea/
+*.iml
+
+build/

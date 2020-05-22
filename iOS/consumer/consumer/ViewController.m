@@ -11,6 +11,7 @@
 
 #import <engine/CUEEngine.h>
 #import <engine/CUETrigger.h>
+#import <engine/CUEErrno.h>
 
 @interface ViewController() <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *outputView;
@@ -193,13 +194,23 @@
     switch (self.selectedMode) {
         case CUEEngineModeTrigger: {
             if(self.triggerAsNumber) {
-                unsigned long number = (unsigned long) [self.textEntryField.text longLongValue];
+                NSString* num_s = [[self textEntryField] text];
+                BOOL isNum = true;
+                for( int i = 0; i < [num_s length]; i++) {
+                    int c = [num_s characterAtIndex:i];
+                    isNum = isdigit(c);
+                    if(! isNum) {
+                        [self issueAlertWithTitle:@"Invalid format" andMessage:@"Should be a number in a range: 0-98611127"];
+                        return;
+                    }
+                }
+                unsigned long number = (unsigned long) [num_s longLongValue];
                 validationResult = [CUEEngine.sharedInstance queueTriggerAsNumber:number];
-                if(validationResult == -110) {
+                if( validationResult == CUE_ENGINE_ERR_G1_TRIGGER_AS_NUMBER_UNSUPPORTED ) {
                     [ self issueAlertWithTitle:@"Unsupported"  
                                     andMessage:@"Triggers as number sending is unsupported for engine generation 1" ];
                 }
-                else if(validationResult < 0) /* -120 */ {
+                else if( validationResult == CUE_ENGINE_ERR_TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
                     [ self issueAlertWithTitle:@"Invalid Format"
                                     andMessage:@"Trigger us number can not exceed 98611127" ];
                 }
@@ -222,7 +233,7 @@
         }
         case CUEEngineModeLive: {
             validationResult = [CUEEngine.sharedInstance queueLive:self.textEntryField.text];
-            if(validationResult == - 10) {
+            if(validationResult == CUE_ENGINE_ERR_G2_QUEUE_LIVE_UNSUPPORTED) {
                 [ self issueAlertWithTitle:@"Unsupported"  
                                 andMessage:@"Live triggers sending is unsupported for engine generation 2" ];
             }
@@ -235,10 +246,10 @@
         }
         case CUEEngineModeAscii: {
             validationResult = [CUEEngine.sharedInstance queueMessage:self.textEntryField.text];
-            if(validationResult == -10 ) {
-                [ self issueAlertWithTitle:@"Unsupported"
-                                andMessage:@"Message sending is unsupported for engine generation 2" ];
-            } else if(validationResult < 0) {
+            if(validationResult == CUE_ENGINE_ERR_G2_QUEUE_MESSAGE_STRING_SIZE_IN_BYTES_EXCEEDED  ) {
+                [ self issueAlertWithTitle:@"Invalid Format"
+                                andMessage:@"Ascii stream can not containt more then 256 symbols" ];
+            } else if( validationResult == CUE_ENGINE_ERR_G1_NUMBER_OF_SYMBOLS_EXCEEDED ) {
                 [ self issueAlertWithTitle:@"Invalid Format"
                                 andMessage:@"Ascii stream can not contain more then 10 symbols" ];
             }
@@ -257,7 +268,7 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [self.modes count] - 1;
+    return [self.modes count] + 1;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -332,12 +343,10 @@
 
 # pragma mark UITextField
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (string.length) {
+- (void)textFieldDidEndEditing:(UITextField *)textField reason:(UITextFieldDidEndEditingReason)reason {
+    if (textField.text.length) {
         self.sendButton.enabled = true;
     } else self.sendButton.enabled = false;
-    
-    return true;
 }
 
 - (void) setupTextEntryField {

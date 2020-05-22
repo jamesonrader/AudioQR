@@ -6,4 +6,12 @@ framework module engine {
   module AudioSession {
     header "AudioSession.h"
   }
+
+  module CUETrigger {
+    header "CUETrigger.h"
+  }
+
+  module CUEErrno {
+    header "CUEErrno.h"
+  }
 }

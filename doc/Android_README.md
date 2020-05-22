@@ -52,9 +52,9 @@ implementation "com.cueaudio:engine:1.+"
 
 ## Custom Implementation
 
-1. Make sure your app has microphone access granted.
+1) Make sure your app has microphone access granted.
 
-2. Setup the engine using your API key:
+2) Setup the engine using your API key:
 
 ```java
 CUEEngine.getInstance().setupWithAPIKey(<context>, <apiKey>);
@@ -67,7 +67,7 @@ CUEEngine.getInstance().startListening();
 CUEEngine.getInstance().stopListening();
 ```
 
-3. To decode data from the engine, set the engine's `ReceiverCallback`. This is the block of code that will execute each time an ultrasonic signal is detected. An example is:
+3) To decode data from the engine, set the engine's `ReceiverCallback`. This is the block of code that will execute each time an ultrasonic signal is detected. An example is:
 
 ```java
 private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInterface {
@@ -89,3 +89,23 @@ private class CUEEngineCallbackInterfaceImpl implements CUEReceiverCallbackInter
 Then: `CUEEngine.getInstance().setReceiverCallback(new CUEEngineCallbackInterfaceImpl());` 
 
 For details on the structure of the returned JSON, `symbolsJson`, see [here](CUEEngine_JSON_Structure.md).
+
+4) To transmit an ultrasonic trigger from the engine, select from one of the following:
+
+Transmit as an integer between `0` and `98,611,127`:
+
+```java
+result = CUEEngine.getInstance().queueTriggerAsNumber(number);
+if( result < 0 ) {
+    messageLayout.setError("Triggers us number can not exceed 98611127" );
+}
+```
+
+Transmit as a "trigger" (format "X.X.X" where X is an integer from `0` - `461`):
+
+```java
+result = CUEEngine.getInstance().queueTrigger(input);
+if( result < 0 ) {
+    // handle error
+}
+```
