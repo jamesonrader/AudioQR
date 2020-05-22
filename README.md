@@ -1,9 +1,11 @@
 
-# Welcome to the world's fastest, longest-range data-over-audio solution. 
+# High Reliability Acoustic Modem  
 
 ## CUE Audio
 
-Unlike any competing data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), we've utilized this solution to successfully broadcasted ultrasonic signals in indoor/outdoor environments to crowds of 80,000+ stadium attendees, with a propagation distance of over 150 meters and negligible latency above the speed of sound.
+CUE Audio provides an extremely reliable acoustic modem, permitting data exchange between any two devices with a microphone or speaker. CUE typically operates in the near-ultrasonic frequency band (17.5-19.5kHz) in order to be inaudible to the majority of people but detectable by commonplace microphones. Trusted by many of the world's largest brands and deployed on over nine million devices, with CUE you will have access to the world's most advanced acoustic modem.
+
+Unlike alternative data-over-audio solution, which work only in quiet environments over short distances (a few cm to 3 meters), we've utilized this solution to successfully broadcasted ultrasonic signals in indoor/outdoor environments to crowds of 80,000+ stadium attendees, with a propagation distance of over 150 meters and negligible latency above the speed of sound.
 
 ##### Advantages include:
 
