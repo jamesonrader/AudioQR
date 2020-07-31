@@ -19,9 +19,9 @@
 	<key>MinimumOSVersion</key>
 	<string>10.3</string>
 	<key>CFBundleVersion</key>
-	<string>1.20.4</string>
+	<string>1.20.9</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.20.4</string>
+	<string>1.20.9</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 </dict>

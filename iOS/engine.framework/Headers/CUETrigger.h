@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable) NSString *message;
 
+@property NSDictionary *payload;
+
 - (instancetype)initWithJsonString: (NSString *) jsonString;
 
 + (NSString *) modeAsString: (CUEEngineMode) mode;
