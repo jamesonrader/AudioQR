@@ -68,6 +68,8 @@ Please only use the included API Key for applications in development. The public
 
 # Integration Guide
 
+For info on the Demo Project, please [view docs here](https://cueaudio.readme.io/docs/demo-project). An API key is not needed to use the demo project, although one is needed to integrate the library into your own project. 
+
 ## iOS
 [See iOS Documentation](./doc/iOS_README.md)
 
@@ -75,7 +77,7 @@ Please only use the included API Key for applications in development. The public
 [See Android Documentation](./doc/Android_README.md)
 
 ## Technical Details
-[Engine Callback Structure](./doc/CUEEngine_JSON_Structure.md) 
+[Engine Callback Structure](https://cueaudio.readme.io/docs/basic-use-cases#structure-of-a-cuetrigger) 
 
 ### Note
 
