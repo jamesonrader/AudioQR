@@ -11,14 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
@@ -36,6 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cueaudio.engine.CUEEngine;
 import com.cueaudio.engine.CUEReceiverCallbackInterface;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "AndroidConsumer";
 
     private static final int REQUEST_RECORD_AUDIO = 13;
-    private static final String API_KEY = "EH0GHbslb0pNWAxPf57qA6n23w4Zgu5U";
+    private static final String API_KEY = "H7v7NMMNh6im735w331iLHtqnduxGCTL";
     private static final int NOTIFICATION_ID = 1;
 
     private TextView outputView;
@@ -79,10 +80,14 @@ public class MainActivity extends AppCompatActivity {
                 realMode = CUETrigger.MODE_TRIGGER;
                 break;
             case 2:
-                realMode = CUETrigger.MODE_LIVE;
+            case 3:
+                realMode = CUETrigger.MODE_MULTI_TRIGGER;
+                break;
+            case 4:
+                realMode = CUETrigger.MODE_LL;
                 break;
             default:
-                realMode = CUETrigger.MODE_ASCII;
+                realMode = CUETrigger.MODE_DATA;
                 break;
         }
 
@@ -90,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean getTriggerAsNumberByPosition(int position) {
-        if( position == 1 )
+        if( position == 1 || position == 3 )
             return true;
         else
             return false;
@@ -202,11 +207,12 @@ public class MainActivity extends AppCompatActivity {
         int mode = getModeByPosition(position);
         switch (mode) {
             case CUETrigger.MODE_TRIGGER:
-            case CUETrigger.MODE_LIVE:
+            case CUETrigger.MODE_MULTI_TRIGGER:
+            case CUETrigger.MODE_LL:
                 messageInput.setInputType(InputType.TYPE_CLASS_NUMBER);
                 messageInput.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
                 break;
-            case CUETrigger.MODE_ASCII:
+            case CUETrigger.MODE_DATA:
                 messageInput.setInputType(InputType.TYPE_CLASS_TEXT);
                 messageInput.setKeyListener(TextKeyListener.getInstance());
                 break;
@@ -237,36 +243,74 @@ public class MainActivity extends AppCompatActivity {
                 if(triggerAsNumber) {
                     long number = Long.parseLong(input);
                     result = CUEEngine.getInstance().queueTriggerAsNumber(number);
-                    if( result == CUEEngineError.G1_TRIGGER_AS_NUMBER_UNSUPPORTED ) {
+                    if( result == CUEEngineError.TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
                         messageLayout.setError(
-                            "Triggers as number sending is unsupported for engine generation 1" );
-                    } else if( result == CUEEngineError.TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
-                        messageLayout.setError(
-                            "Triggers us number can not exceed 98611127" );
+                            "Triggers as number can not exceed 461 for a CUEEngine g1 or 98611127 for a CUEEngine g2" );
                     } else if ( result < 0 ){
                         messageLayout.setError(
-                                "Triggers us number sending: unknown error" );
+                                "Triggers as number sending: unknown error" );
                     }
                 } else {
-                    CUEEngine.getInstance().queueTrigger(input);
-                }
-                break;
-   
-            case CUETrigger.MODE_LIVE:
-                result = CUEEngine.getInstance().queueLive(input);
-                if ( result == CUEEngineError.G2_QUEUE_LIVE_UNSUPPORTED ) {
-                    messageLayout.setError(
-                        "Live triggers sending is unsupported for engine generation 2");
+                    result = CUEEngine.getInstance().queueTrigger(input);
+                    if( result == CUEEngineError.NUMBER_OF_SYMBOLS_MISMATCH
+                        || result == CUEEngineError.INDEX_VALUE_EXCEEDED ) {
+                        messageLayout.setError(
+                                "Triggers must be of the format [0-461] for a CUEEngine generation 1 " +
+                                "or [0-461].[0-461].[0-461] for a CUEEngine generation 2" );
+                    } else if ( result < 0 ){
+                        messageLayout.setError(
+                                "Triggers as number sending: unknown error" );
+                    }
                 }
                 break;
 
-            case CUETrigger.MODE_ASCII:
+            case CUETrigger.MODE_MULTI_TRIGGER:
+                if(triggerAsNumber) {
+                    long number = Long.parseLong(input);
+                    result = CUEEngine.getInstance().queueMultiTriggerAsNumber(number);
+                    if( result == CUEEngineError.G1_QUEUE_MULTI_TRIGGER_UNSUPPORTED ) {
+                        messageLayout.setError("Queue multi-trigger as number: unsupported for CUEEngine generation 1");
+                    } else if( result == CUEEngineError.MULTI_TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
+                        messageLayout.setError(
+                                "Queue multi-trigger as number can not exceed 9724154565432383" );
+                    } else if ( result < 0 ){
+                        messageLayout.setError(
+                                "Queue multi-trigger as number: unknown error" );
+                    }
+                } else {
+                    result = CUEEngine.getInstance().queueMultiTrigger(input);
+                    if( result == CUEEngineError.G1_QUEUE_MULTI_TRIGGER_UNSUPPORTED ) {
+                        messageLayout.setError("Queue multi-trigger: unsupported for CUEEngine generation 1");
+                    } else if ( result < 0 ){
+                        messageLayout.setError(
+                                "Queue multi-trigger: unknown error" );
+                    }
+                }
+                break;
+
+            case CUETrigger.MODE_LL:
+                result = CUEEngine.getInstance().queueLL(input);
+                if ( result == CUEEngineError.G1_QUEUE_LL_UNSUPPORTED ) {
+                    messageLayout.setError(
+                            "LL triggers sending is unsupported for engine generation 1");
+                } else if ( result == CUEEngineError.G2_QUEUE_LL_MODE_LL_ONLY_OR_MODE_BASIC_SHOULD_BE_SET ) {
+                    messageLayout.setError(
+                            "Can not queue ll: please set config mode to 'basic' or to 'll_only'" );
+                } else if ( result == CUEEngineError.G2_LL_IS_ON_IN_BASIC_CAN_NOT_QUEUE ) {
+                    Toast.makeText(this,
+                            "LL is already on in a config 'basic' mode, can not queue, please wait while it is off",
+                            Toast.LENGTH_SHORT).show();
+                } else if( result < 0 ) {
+                    messageLayout.setError("Queue ll: unknown error");
+                }
+                break;
+
+            case CUETrigger.MODE_DATA:
                 result = CUEEngine.getInstance().queueMessage(input);
-                if ( result == CUEEngineError.G1_NUMBER_OF_SYMBOLS_EXCEEDED ) {
-                    ///!!! should be fixed some how (but how?)
-                    messageLayout.setError("Ascii stream can't contain more then 10 symbols for G1");
-                } else if ( result == CUEEngineError.G2_QUEUE_MESSAGE_STRING_SIZE_IN_BYTES_EXCEEDED ) {
-                    messageLayout.setError("Test can't contain more then 512 bytes for G2");
+                if ( result == CUEEngineError.G1_QUEUE_MESSAGE_UNSUPPORTED ) {
+                    messageLayout.setError("Queue message or data: unsupported for CUEEngine generation 1");
+                } else if ( result == CUEEngineError.G2_MESSAGE_STRING_SIZE_IN_BYTES_EXCEEDED ) {
+                    messageLayout.setError("Text can't contain more then 512 bytes for G2");
                 } else if( result < 0 ) {
                     messageLayout.setError("Queue message: unknown error");
                 }

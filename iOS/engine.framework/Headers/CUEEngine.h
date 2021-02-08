@@ -9,43 +9,32 @@
 #pragma once
 
 #import <Foundation/Foundation.h>
+#import "CUEErrno.h"
 
 @interface CUEEngine : NSObject
 
-typedef NS_ENUM(NSInteger, CUEEngineValidationResult) {
-    SUCCESS                        =  0,
-    ERR_NUMBER_OF_SYMBOLS_MISMATCH = -1,
-    ERR_NUMBER_OF_SYMBOLS_EXCEEDED = -2,
-    ERR_SYMBOL_NOT_A_NUMBER        = -3,
-    ERR_INDEX_VALUE_EXCEEDED       = -4,
-};
+typedef void(^ReceiverCallback)( NSString* _Nonnull json );
+typedef void(^RefreshPayloadsCallback)( void );
 
-typedef void(^ReceiverCallback)( NSString* json );
-//typedef void(^OnGenerationChangeCallback)( NSInteger g );
-
-
-+ (id) sharedInstance;
++ (nonnull CUEEngine*) sharedInstance;
 
 - (void) didEnterForeground;
 
 // you can set the tone callback at any moment in the life-cycle of the object
-- (void) setReceiverCallback: (ReceiverCallback) blk;
-//- (void) setOnGenerationChangeCallback: (OnGenerationChangeCallback) blk;
+- (void) setReceiverCallback: (nonnull ReceiverCallback) blk;
 
 // NOTE: If you don't have microphone permission before you setup,
 //         iOS will automatically request it.
 
-// uses default engine config
-- (void) setup;
+- (void) setupWithAPIKey: (nonnull NSString*) apiKey; 
 
-// It's ok to pass an empty string (or even NULL)
-// The C++ engine will setup with default config.
-- (void) setupWithAPIKey: (NSString*) apiKey; 
+- (void) setupWithAPIKey: (nonnull NSString*) apiKey 
+           andWithConfig: (nonnull NSString*) config;
 
 // this will trigger an assertion failure if setup didn't complete
 - (void) startListening;
 
-- (void) feed:(float *) bufOfFloats
+- (void) feed:(null_unspecified float*) bufOfFloats
    withNSamps:(int) nSamps
  andWithSRate:(double) sRate;
 
@@ -55,19 +44,20 @@ typedef void(^ReceiverCallback)( NSString* json );
 
 - (BOOL) didSetup;
 
-//- (void) setConfig: (NSString *) config;
+- (CUE_ENGINE_ERROR) queueLive:                 (nonnull NSString*) live;
+- (CUE_ENGINE_ERROR) queueLL:                   (nonnull NSString*) message;
+- (CUE_ENGINE_ERROR) queueTrigger:              (nonnull NSString*) trigger;
+- (CUE_ENGINE_ERROR) queueTriggerAsNumber:      (unsigned long) n;
+- (CUE_ENGINE_ERROR) queueMultiTrigger:         (nonnull NSString*) multiTrigger;
+- (CUE_ENGINE_ERROR) queueMultiTriggerAsNumber: (const long long) n;
+- (CUE_ENGINE_ERROR) queueData:                 (nonnull NSString*) data;
+- (CUE_ENGINE_ERROR) queueMessage:              (nonnull NSString*) message;
 
-- (CUEEngineValidationResult) queueLive:            (NSString *) live;
-- (CUEEngineValidationResult) queueTrigger:         (NSString *) trigger;
-- (CUEEngineValidationResult) queueTriggerAsNumber: (unsigned long) n;
-- (CUEEngineValidationResult) queueData:            (NSString *) data;
-- (CUEEngineValidationResult) queueMessage:         (NSString *) message;
-
-- (NSString*) getEngineDeviceId;
-//- (NSInteger) getEngineGeneration;
+- (nonnull NSString*) getEngineDeviceId;
 
 - (void) setDefaultGeneration: (int) g;
 
-//- (void) setTriggers: (NSArray<NSString*>*) triggerSet;
+- (void) refreshPayloads: (nonnull RefreshPayloadsCallback) blk;
+- (nonnull NSDictionary*) getPayload: (nonnull NSString*) trigger;
 
 @end

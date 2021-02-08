@@ -15,5 +15,6 @@ Android/wrapper/.cxx/
 .gradle/
 .idea/
 *.iml
+*google-services.json
 
 build/

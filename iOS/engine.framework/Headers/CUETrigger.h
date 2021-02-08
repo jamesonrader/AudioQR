@@ -10,8 +10,10 @@
 typedef NS_ENUM(NSInteger, CUEEngineMode) {
     CUEEngineModeUnknown = -1,
     CUEEngineModeTrigger = 0,
-    CUEEngineModeLive = 1,
-    CUEEngineModeAscii = 2,
+    CUEEngineModeMultiTrigger = 1,
+    CUEEngineModeLive = 2,
+    CUEEngineModeLL = 3,
+    CUEEngineModeData = 4
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable) NSArray<NSArray<NSNumber *>*> *rawTrigger;
 
 @property NSString *winnerIndices;
-@property unsigned long triggerAsNumber;
+@property long long triggerAsNumber;
 
 @property NSString *rawJsonString;
 

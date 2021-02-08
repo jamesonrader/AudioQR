@@ -13,6 +13,8 @@
 #import <engine/CUETrigger.h>
 #import <engine/CUEErrno.h>
 
+#define decimalPoint NSLocale.currentLocale.decimalSeparator
+
 @interface ViewController() <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *outputView;
 @property (weak, nonatomic) IBOutlet UIPickerView *modePicker;
@@ -105,8 +107,9 @@
 
 - (void) setupModesArray {
     self.modes = @[[NSNumber numberWithInteger:CUEEngineModeTrigger],
-                   [NSNumber numberWithInteger:CUEEngineModeLive],
-                   [NSNumber numberWithInteger:CUEEngineModeAscii]];
+                   [NSNumber numberWithInteger:CUEEngineModeMultiTrigger],
+                   [NSNumber numberWithInteger:CUEEngineModeLL],
+                   [NSNumber numberWithInteger:CUEEngineModeData]];
 }
 
 #pragma mark Notifications
@@ -187,7 +190,9 @@
 # pragma mark Transmit
 
 - (IBAction)transmit:(id)sender {
-    CUEEngineValidationResult validationResult = 0;
+    CUE_ENGINE_ERROR validationResult = 0;
+    NSString* title = @"";
+    NSString* message = @"";
 
     [[self view] endEditing:YES];
 
@@ -200,28 +205,30 @@
                     int c = [num_s characterAtIndex:i];
                     isNum = isdigit(c);
                     if(! isNum) {
-                        [self issueAlertWithTitle:@"Invalid format" andMessage:@"Should be a number in a range: 0-98611127"];
+                        [self issueAlertWithTitle:@"Invalid format"
+                                       andMessage:@"Should be a number in a range: 0-9861112 "
+                                                  @"for a CUEEngine generation 2 or 0-461 "
+                                                  @"for a CUEEngine generation 1"];
                         return;
                     }
                 }
                 unsigned long number = (unsigned long) [num_s longLongValue];
                 validationResult = [CUEEngine.sharedInstance queueTriggerAsNumber:number];
-                if( validationResult == CUE_ENGINE_ERR_G1_TRIGGER_AS_NUMBER_UNSUPPORTED ) {
-                    [ self issueAlertWithTitle:@"Unsupported"  
-                                    andMessage:@"Triggers as number sending is unsupported for engine generation 1" ];
-                }
-                else if( validationResult == CUE_ENGINE_ERR_TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
+                if( validationResult == CUE_ENGINE_ERR_TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
                     [ self issueAlertWithTitle:@"Invalid Format"
-                                    andMessage:@"Trigger us number can not exceed 98611127" ];
+                                    andMessage:@"Trigger as number can not exceed 98611127 "
+                                               @"for a CUEEngine generation 2 or 461 "
+                                               @"for a CUEEngine generation 1"];
                 }
             } else {
-                NSString* decimalPoint = NSLocale.currentLocale.decimalSeparator;
                 NSString* triggerStr = [self.textEntryField.text stringByReplacingOccurrencesOfString:decimalPoint withString:@"."];
 
                 validationResult = [CUEEngine.sharedInstance queueTrigger:triggerStr];
                 if(validationResult < 0) {
                     NSString* alertMsg = [
-                        NSString stringWithFormat:@"Triggers must be of the format [0-461]%@[0-461]%@[0-461]",
+                        NSString stringWithFormat:@"Triggers must be of the format [0-461]%@[0-461]%@[0-461] "
+                                                  @"for a CUEEngine generation 2 or [0-461] "
+                                                  @"for a CUEEngine generation 1",
                         decimalPoint, decimalPoint ];
      
                     [ self issueAlertWithTitle:@"Invalid Format"
@@ -231,27 +238,82 @@
 
             break;
         }
-        case CUEEngineModeLive: {
-            validationResult = [CUEEngine.sharedInstance queueLive:self.textEntryField.text];
-            if(validationResult == CUE_ENGINE_ERR_G2_QUEUE_LIVE_UNSUPPORTED) {
-                [ self issueAlertWithTitle:@"Unsupported"  
-                                andMessage:@"Live triggers sending is unsupported for engine generation 2" ];
-            }
-            else if(validationResult < 0) {
-                [ self issueAlertWithTitle:@"Invalid Format"
-                                andMessage:@"Live Triggers must be of the format [0-461]" ];
+        case CUEEngineModeMultiTrigger: {
+            if(self.triggerAsNumber) {
+                NSString* num_s = [[self textEntryField] text];
+                BOOL isNum = true;
+                for( int i = 0; i < [num_s length]; i++) {
+                    int c = [num_s characterAtIndex:i];
+                    isNum = isdigit(c);
+                    if(! isNum) {
+                        [self issueAlertWithTitle:@"Invalid format"
+                                       andMessage:@"Should be a number in a range: 0-9724154565432383"];
+                        return;
+                    }
+                }
+                long long number = (long long) [num_s longLongValue];
+                validationResult = [CUEEngine.sharedInstance queueMultiTriggerAsNumber:number];
+                if( validationResult == CUE_ENGINE_ERR_MULTI_TRIGGER_AS_NUMBER_MAX_NUMBER_EXCEEDED ) {
+                    title = @"Invalid Format";
+                    message = @"Multi-trigger as number can not exceed 972415456543238";
+                } else if ( validationResult == CUE_ENGINE_ERR_G1_QUEUE_MULTI_TRIGGER_UNSUPPORTED) {
+                    title = @"Unsupported";
+                    message = @"Can not queue a multi-trigger for a CUEEngine generation 1";
+                }
+            } else {
+                NSString* triggerStr = [self.textEntryField.text stringByReplacingOccurrencesOfString:decimalPoint withString:@"."];
+                validationResult = [CUEEngine.sharedInstance queueMultiTrigger:triggerStr];
+                if( validationResult == CUE_ENGINE_ERR_G1_QUEUE_MULTI_TRIGGER_UNSUPPORTED ) {
+                    title = @"Unsupported";
+                    message = @"Can not queue a multi-trigger for a CUEEngine generation 1";
+                } else if (validationResult < 0) {
+                    title = @"Invalid Format";
+                    message = [ NSString stringWithFormat:
+                        @"MultiTriggers must be of the format "
+                        @"[0-461]%@[0-461]%@[0-461]%@[0-461]%@[0-461]%@[0-461]",
+                        decimalPoint, decimalPoint, decimalPoint, decimalPoint, decimalPoint ];
+                }
             }
 
+            if( ![title  isEqual: @""] && ![message  isEqual: @""] ) {
+                [ self issueAlertWithTitle:title andMessage:message ];
+            }
             break;
         }
-        case CUEEngineModeAscii: {
+        case CUEEngineModeLL: {
+            validationResult = [CUEEngine.sharedInstance queueLL:self.textEntryField.text];
+            if( validationResult == CUE_ENGINE_ERR_G1_QUEUE_LL_UNSUPPORTED ) {
+                title = @"Unsupported";
+                message = @"Can not queue ll for a CUEEngine generation 1";
+            } else if( validationResult == CUE_ENGINE_ERR_G2_QUEUE_LL_MODE_LL_ONLY_OR_MODE_BASIC_SHOULD_BE_SET ) {
+                title = @"Unsupported";
+                message = @"Can not queue ll: please set a config mode to 'basic' or to 'll_only'";
+            } else if( validationResult == CUE_ENGINE_ERR_G2_LL_IS_ON_IN_BASIC_CAN_NOT_QUEUE ) {
+                title = @"Already active";
+                message = @"LL is already on in a config 'basic' mode, can not queue, please wait while it is off";
+            } else if ( validationResult < 0 ){
+                title = @"Invalid format";
+                message = [ NSString stringWithFormat:
+                            @"LL message must be of the format [0-125]%@[0-125]...",
+                            decimalPoint ];
+            } else {
+                title = @"";
+                message = @"";
+            }
+            
+            if( ![title  isEqual: @""] && ![message  isEqual: @""] ) {
+                [ self issueAlertWithTitle:title andMessage:message ];
+            }
+            break;
+        }
+        case CUEEngineModeData: {
             validationResult = [CUEEngine.sharedInstance queueMessage:self.textEntryField.text];
-            if(validationResult == CUE_ENGINE_ERR_G2_QUEUE_MESSAGE_STRING_SIZE_IN_BYTES_EXCEEDED  ) {
+            if(validationResult == CUE_ENGINE_ERR_G2_MESSAGE_STRING_SIZE_IN_BYTES_EXCEEDED ) {
                 [ self issueAlertWithTitle:@"Invalid Format"
-                                andMessage:@"Ascii stream can not containt more then 256 symbols" ];
-            } else if( validationResult == CUE_ENGINE_ERR_G1_NUMBER_OF_SYMBOLS_EXCEEDED ) {
-                [ self issueAlertWithTitle:@"Invalid Format"
-                                andMessage:@"Ascii stream can not contain more then 10 symbols" ];
+                                andMessage:@"Data stream can not containt more then 256 symbols" ];
+            } else if( validationResult == CUE_ENGINE_ERR_G1_QUEUE_MESSAGE_UNSUPPORTED ) {
+                [ self issueAlertWithTitle:@"Unsupported"
+                                andMessage:@"queue message: unsupported for a CUEEngine generation 1" ];
             }
             break;
         }
@@ -268,7 +330,7 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [self.modes count] + 1;
+    return [self.modes count] + 2;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -282,9 +344,13 @@
         case 1:
             return @"Number";
         case 2:
-            return @"Live";
+            return @"MultiTrigger";
+        case 3:
+            return @"NumMultTrg";
+        case 4:
+            return @"LL";
         default:
-            return @"Ascii";
+            return @"Data";
     }
 }
 
@@ -301,10 +367,17 @@
             self.triggerAsNumber = YES;
             break;
         case 2:
-            self.selectedMode = CUEEngineModeLive;
+            self.selectedMode = CUEEngineModeMultiTrigger;
+            break;
+        case 3:
+            self.selectedMode = CUEEngineModeMultiTrigger;
+            self.triggerAsNumber = YES;
+            break;
+        case 4:
+            self.selectedMode = CUEEngineModeLL;
             break;
         default:
-            self.selectedMode = CUEEngineModeAscii;
+            self.selectedMode = CUEEngineModeData;
             break;
     }
 
@@ -314,7 +387,6 @@
                 self.textEntryField.placeholder = @"123123";
                 [self setKeyboardType:UIKeyboardTypeNumberPad];
             } else {
-                NSString* decimalPoint = NSLocale.currentLocale.decimalSeparator;
                 self.textEntryField.placeholder = [
                     NSString stringWithFormat:@"1%@2%@34",
                     decimalPoint, decimalPoint ];
@@ -322,11 +394,26 @@
             }
             break;
         }
-        case CUEEngineModeLive:
-            self.textEntryField.placeholder = @"34";
-            [self setKeyboardType:UIKeyboardTypeNumberPad];
+        case CUEEngineModeMultiTrigger: {
+            if(self.triggerAsNumber) {
+                self.textEntryField.placeholder = @"123123";
+                [self setKeyboardType:UIKeyboardTypeNumberPad];
+            } else {
+                self.textEntryField.placeholder = [
+                    NSString stringWithFormat:@"1%@2%@3%@4%@5%@6",
+                    decimalPoint, decimalPoint, decimalPoint, decimalPoint, decimalPoint ];
+                [self setKeyboardType:UIKeyboardTypeDecimalPad];
+            }
             break;
-        case CUEEngineModeAscii:
+        }
+        case CUEEngineModeLL: {
+            self.textEntryField.placeholder = [
+                NSString stringWithFormat:@"10%@20%@30%@40 ...",
+                decimalPoint, decimalPoint, decimalPoint ];
+            [self setKeyboardType:UIKeyboardTypeDecimalPad];
+            break;
+        }
+        case CUEEngineModeData:
             self.textEntryField.placeholder = @"Hello World";
             [self setKeyboardType:UIKeyboardTypeDefault];
             break;
@@ -351,7 +438,6 @@
 
 - (void) setupTextEntryField {
     self.textEntryField.delegate = self;
-    NSString* decimalPoint = NSLocale.currentLocale.decimalSeparator;
     self.textEntryField.placeholder = [
         NSString stringWithFormat:@"1%@2%@34", decimalPoint, decimalPoint ];
     self.textEntryField.keyboardType = UIKeyboardTypeDecimalPad;
